@@ -1,0 +1,20 @@
+https://github.com/amals610/302-projFinal.git
+
+This challenged laid a good foundation for my team and I to begin working on the project. 
+With this challenge we were able to understand the basics of new softwares and familiarize
+ourselves with new APIs and C#. We also watched some videos on how to program a game using
+Unity.
+
+Team-wide Logs:
+Discuss who does what, worked on individual milestone (1 hr)
+Discuss how Unity and github workflow are gonna work (1hr)
+
+My Logs:
+Downloaded and familiarized with Unity editor basics (1hr)
+Familiarized with Unity API scripts (1hr)
+Watched introductory videos to making a 2D game (1 hr)
+Watched basic C# intro videos (.5hr)
+
+Next steps appear to be figuring out how to organize scripts efficiently. 
+We will figure out how to implement core features of the game such as gameplay 
+and movement. Later we will figure out how to add texture and design. 
