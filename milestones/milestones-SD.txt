@@ -11,7 +11,6 @@ Add player movement
 
 Make an email filter for github updates: DONE
 
-
 PLAYER CONT:
 Player can shoot lasers
 player movement is bounded to play field
