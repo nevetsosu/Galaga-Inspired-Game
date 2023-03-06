@@ -1,0 +1,15 @@
+https://github.com/nevetsosu/302-projFinal.git
+
+This challenge motivated us to actually start the project. Without this challenge, this project would not have been started until whoknows when. This challenge was overall good review for me since I've worked with Unity once before. It was even more important for the others that haven't touched Unity at all. Having to document our time spent on the project is quite odd when most of our time spentright now is learning, not really much doing yet.
+
+Team-wide Logs:
+Discuss who does what, worked on individual milestone (1 hr)
+Discuss how Unity and github workflow are gonna work (1hr)
+
+My Logs:
+Setup github and unity (1hr)
+Familiarize with unity editor (1hr)
+Familiarize with unity API scripts (1hr)
+Make player script (30 min)
+
+Next steps appear to be figuring out how to organize scripts efficiently. Unity appears to use many different handlder objects for different aspects of each level, writing out how we want this to be organized will help us split up code based on file(the different object scripts).
