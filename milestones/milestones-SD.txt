@@ -1,0 +1,25 @@
+Setup working environment: DONE
+setup github repo
+download unity
+setup unity in github repo
+Setup C# intellisense in VSCode
+
+PLAYER:
+Moving player
+Player can shoot lasers
+player movement is bounded to play field
+
+PLAYER LASERS:
+Allow player to spawn lasers at a set rate (with a hard cap) 
+Remove laser objects when off screen
+
+(laser collision should be handled on enemy side)
+
+Enemy Setup:
+Talk about what enemy types there will be
+Talk about how we will handle attack patterns and groups of enemies
+
+Enemy handling:
+Create enemy handler object
+create a generic enemy object
+
