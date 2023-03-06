@@ -1,6 +1,6 @@
 https://github.com/amals610/302-projFinal.git
 
-This challenged laid a good foundation for my team and I to begin working on the project. 
+This challenge laid a good foundation for my team and I to begin working on the project. 
 With this challenge we were able to understand the basics of new softwares and familiarize
 ourselves with new APIs and C#. We also watched some videos on how to program a game using
 Unity.
