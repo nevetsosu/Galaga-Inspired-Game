@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private float horizontalInput;
+    private float speed = 20;
     void Start()
     {
         
@@ -13,6 +14,7 @@ public class PlayerHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);  
     }
 }
