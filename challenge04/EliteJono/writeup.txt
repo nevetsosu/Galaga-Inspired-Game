@@ -1,0 +1,94 @@
+Jonathan Tran
+Challenge4 Writeup
+Last edited: 3/6/23
+
+GitHub Repo: https://github.com/nevetsosu/302-projFinal.git
+
+
+Summary:
+	This challenge was a good push for us to proceed with our final project. We were working on other things before, so we had not really worked 
+	on this final project much. There is still a lot of work to be done with the meat of the project since many of us are new to Unity. For now,
+	we focused on getting familiar with Unity and getting some practice with it. Most of my time was spent on that. Work could have started earlier,
+	but it has been a decent introduction to Unity so far.
+
+
+Team-wide Logs:
+	Discuss who does what, worked on individual milestone (1 hr)
+	Discuss how Unity and github workflow are gonna work (1hr)
+
+My Logs:
+	Download and familiarize with Unity editor (1 hr)
+	Familiarize with Unity API scripts (1 hr)
+	Watched some Unity 2D tutorials, implemented the instructions in the tutorials (1.5 hrs)
+	Trying to familiarize with C# and troubleshoot VS Code (1.5 hr)
+	Searched for some assets to use as sprites (0.5 hrs)
+
+
+Future Plans:
+	I still need more practice with Unity, so I plan to do that. I should watch and read a few more guides and get more hands-on practice.
+	Later on, we'll need to decide on the specific details on the visuals of the game, player and enemy movement, enemy types, attacks, difficulty,
+	and other things. I plan on working on visuals, attacks, and difficulty.
+
+
+
+
+
+
+
+Overall Rubric:
+    20 hours per person (20 points)
+    Compilable code, comments, well-formatted (10 points)
+    Code works as intended and is similar to proposal (5 points)
+    Writeup about experiences and group dynamics (5 points)
+
+Jonathan Tran's Individual Rubric:
+    Setup working environment: 5 points
+    Familiarize with Unity API: 5 points
+    Practice with Unity 2D Game Development: 10 points
+    Work on visuals: 5 points
+    Work on player and enemy attacks/formations: 10 points
+    Work on difficulty, balancing, and troubleshooting: 5 points
+
+
+
+
+
+Jonathan Tran's Milestones:
+
+    Setup working environment: DONE
+        Clone github repo
+        Download unity
+        Setup unity in github repo
+        Setup C# intellisense in VSCode
+
+    Familiarize with Unity API: DONE
+        Look at examples
+        Consider Unity training courses
+        Practice with C#
+
+
+    Practice with Unity 2D Game Development: IN PROGRESS
+        Watch some tutorials: DONE
+        Develop a simple game: IN PROGRESS
+
+
+    Get some assets and sprites: IN PROGRESS
+        Look up some sprites on Google: DONE
+        Decide on sprites: IN PROGRESS
+
+
+
+    Player Attacks: NOT YET
+        Allow player to spawn lasers at a set rate (with a hard cap)
+        Remove laser objects when off screen
+
+
+    Enemy AI: NOT YET
+        Attack patterns, formations, and movement
+        Kinds of enemies
+
+    Difficulty: NOT YET
+        Different levels and difficulties
+
+	
+
