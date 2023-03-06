@@ -2,10 +2,14 @@ Setup working environment: DONE
 setup github repo
 download unity
 setup unity in github repo
-Setup C# intellisense in VSCode
+Setup C# intellisense in VSCode
 
-PLAYER:
-Moving player
+Familiarize with Unity API: DONE
+Look at examples
+Consider Unity training courses
+Add player movement
+
+PLAYER CONT:
 Player can shoot lasers
 player movement is bounded to play field
 
