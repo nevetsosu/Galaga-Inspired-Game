@@ -1,0 +1,16 @@
+Milestones-VK
+https://github.com/nevetsosu/302-projFinal.git
+
+3/5/23
+
+This challenge actually got me motivated to start thinking about the final project. Otherwise I would've started this in about 2-3 weeks. I have never touched Unity before and so I am a complete beginner and
+I have to learn all the small, baby steps to be able to even process what is happening at this current stage. I have 0 experience with C# before this so this should be a fun project. 
+
+Team-wide Logs:
+Discuss who does what, worked on individual milestone (1 hr)
+Discuss how Unity and github workflow are gonna work (1hr)
+
+Personal Logs:
+Download and familiarize the Unity set up with Github (1.5hr)
+Watch Unity tutorials on basic instructions and navigation (1.5 hr)
+Familiarize myself with C# (1hr)
