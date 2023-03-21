@@ -1,0 +1,55 @@
+Overall Rubric:
+	20 hours per person (20 points)
+	Compilable code, comments, well-formatted (10 points)
+	Code works as intended and is similar to proposal (5 points)
+	Writeup about experiences and group dynamics (5 points)
+
+Jonathan Tran's Individual Rubric:
+	Setup working environment: 5 points
+	Familiarize with Unity API: 5 points
+	Practice with Unity 2D Game Development: 10 points
+	Work on visuals: 5 points
+	Work on player and enemy attacks/formations: 10 points
+	Work on difficulty, balancing, and troubleshooting: 5 points
+
+
+
+
+
+Jonathan Tran's Milestones:
+
+	Setup working environment: DONE
+		Clone github repo
+		Download unity
+		Setup unity in github repo
+		Setup C# intellisense in VSCode
+
+	Familiarize with Unity API: DONE
+		Look at examples
+		Consider Unity training courses
+		Practice with C#
+
+
+	Practice with Unity 2D Game Development: IN PROGRESS
+		Watch some tutorials: DONE
+		Develop a simple game: IN PROGRESS
+
+
+	Get some assets and sprites: IN PROGRESS
+		Look up some sprites on Google: DONE
+		Decide on sprites: IN PROGRESS
+
+	
+
+	Player Attacks: NOT YET
+		Allow player to spawn lasers at a set rate (with a hard cap)
+		Remove laser objects when off screen
+
+
+	Enemy AI: NOT YET
+		Attack patterns, formations, and movement
+		Kinds of enemies
+
+	Difficulty: NOT YET
+		Different levels and difficulties
+
