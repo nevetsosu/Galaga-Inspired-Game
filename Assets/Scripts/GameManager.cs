@@ -20,26 +20,5 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        if (Load_Game_Data()) {
-            continueButton.enabled = true;
-            newButton.gameObject.SetActive(false); 
-        } else {
-            newButton.enabled = true;
-            continueButton.gameObject.SetActive(false); 
-        }
-    }
-
-    bool Load_Game_Data() {
-        // data not loaded
-        return false;
-
-        // data loaded
-        // return true; 
-    }   
-
-
-    void load_level_one() {
-        SceneManager.LoadScene(1);
-    }
+    } 
 }
