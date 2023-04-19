@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 938990166400428267}
   - component: {fileID: 2210035431259785671}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,6 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6f00e50dc9ecdc44b983323c3f48d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  health: 5
+  speed: 10
+  isRight: 1
 --- !u!61 &938990166400428267
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -139,10 +143,10 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4

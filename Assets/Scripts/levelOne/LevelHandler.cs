@@ -15,8 +15,8 @@ public class LevelHandler : MonoBehaviour
         Instance = this;
     }
     
-    void Update()
+    /*void Update()
     {
         pauseMenu.Instance.pauseMenuCheck();
-    }
+    }*/
 }
