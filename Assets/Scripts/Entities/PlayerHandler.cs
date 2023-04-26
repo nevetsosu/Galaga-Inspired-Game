@@ -53,8 +53,18 @@ public class PlayerHandler : Entity
         }
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            attack();
+        }
+    }
+
+
+
     public override void attack()
     {
+        GameObject projectile = Instantiate(GameObject.Find("Test Projectile"), new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 5), Quaternion.identity);
+        projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 2);
         return;
     }
 

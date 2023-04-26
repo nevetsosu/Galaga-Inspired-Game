@@ -10,7 +10,7 @@ public abstract class Entity : MonoBehaviour
         return health;
     }
 
-    public void kill() {
+    public void die() {
         Destroy(this.gameObject);
     }
     

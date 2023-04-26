@@ -29,6 +29,10 @@ public class Type1Enemy : Enemy
         BoxCollider = gameObject.GetComponent<BoxCollider2D>();
         RigidBody.velocity = defaultVelocity;
     }
+
+    void FixedUpdate() {
+        if (health < 0) die(); 
+    }
     
     void OnTriggerEnter2D(Collider2D col) {
         if (col.gameObject.tag == "LeftBound" || col.gameObject.tag == "RightBound"){
@@ -39,16 +43,4 @@ public class Type1Enemy : Enemy
     private void reverseHorizontal() {
         RigidBody.velocity = new Vector2(-BoundCollideSpeedGain * RigidBody.velocity.x, RigidBody.velocity.y);
     }
-
-    // public override void attack()
-    // {
-    //     return;
-    // }
-
-    // public override void take_damage(int damage)
-    // {
-    //     if (!invulnerable) {
-    //         health -= damage;
-    //     }
-    // }
 }
