@@ -6,6 +6,8 @@ public abstract class Entity : MonoBehaviour
 {
     public abstract void take_damage(int damage);
     public abstract void attack();
+    
+    // getter for health
     public int Health() {
         return health;
     }

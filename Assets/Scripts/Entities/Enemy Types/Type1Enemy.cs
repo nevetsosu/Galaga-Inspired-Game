@@ -4,43 +4,48 @@ using UnityEngine;
 
 public class Type1Enemy : Enemy
 {
-    private Vector2 defaultVelocity;
+    private Vector2 velocity;
     public float speed;
     private Rigidbody2D RigidBody;
-    private BoxCollider2D BoxCollider;
     private float BoundCollideSpeedGain;
     private float defaultXVelocity = -10;
     private float defaultYVelocity = -2;
     public Type1Enemy Instance;
     
 
-    public Type1Enemy() {
+    void Awake() {
+        // initilize default values
         health = 50;
         invulnerable = false;
         speed = 10.0f;
-        defaultVelocity = Vector2.ClampMagnitude(new Vector2(defaultXVelocity, defaultYVelocity), 1) * speed;
+        velocity = Vector2.ClampMagnitude(new Vector2(defaultXVelocity, defaultYVelocity), 1) * speed;
         BoundCollideSpeedGain = 1.05f;
+        RigidBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        RigidBody = gameObject.GetComponent<Rigidbody2D>();
-        BoxCollider = gameObject.GetComponent<BoxCollider2D>();
-        RigidBody.velocity = defaultVelocity;
+        RigidBody.velocity = velocity;
     }
 
-    void FixedUpdate() {
+    void Update() {
+        // check aliveness
         if (health < 0) die(); 
     }
     
     void OnTriggerEnter2D(Collider2D col) {
+        // reverse direction when edge reached // This can be re coded to work on the Level manager's PLAYFIELDWIDTH variable instead
         if (col.gameObject.tag == "LeftBound" || col.gameObject.tag == "RightBound"){
                 reverseHorizontal();
-            }
+        }
     }
 
     private void reverseHorizontal() {
         RigidBody.velocity = new Vector2(-BoundCollideSpeedGain * RigidBody.velocity.x, RigidBody.velocity.y);
+    }
+
+    public override void attack()
+    {
+        return; 
     }
 }

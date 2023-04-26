@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Base class Projectile
 public abstract class Projectile : MonoBehaviour
 {
     public abstract void OnTriggerEnter2D(Collider2D col);
-    protected int damage;
-    protected float velocity;
+    protected static int damage;
+    protected static float velocity;
 }
