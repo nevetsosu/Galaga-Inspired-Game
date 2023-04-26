@@ -15,8 +15,10 @@ public class LevelHandler : MonoBehaviour
         Instance = this;
     }
     
-    /*void Update()
+    void FixedUpdate()
     {
-        pauseMenu.Instance.pauseMenuCheck();
-    }*/
+        if(pauseMenu.Instance != null) {
+            pauseMenu.Instance.pauseMenuCheck();
+        }
+    }
 }
