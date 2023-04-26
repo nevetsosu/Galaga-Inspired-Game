@@ -14,6 +14,10 @@ public class Enemy : Entity
     }
 
     public override void take_damage(int damage) {
+        if (!invulnerable) {
+            health -= damage;
+        }
+        Debug.Log("Damage Taken, current health " + health);
         return;
     }
 }

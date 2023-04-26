@@ -11,6 +11,7 @@ public class Type1Enemy : Enemy
     private float BoundCollideSpeedGain;
     private float defaultXVelocity = -10;
     private float defaultYVelocity = -2;
+    public Type1Enemy Instance;
     
 
     public Type1Enemy() {
@@ -39,15 +40,15 @@ public class Type1Enemy : Enemy
         RigidBody.velocity = new Vector2(-BoundCollideSpeedGain * RigidBody.velocity.x, RigidBody.velocity.y);
     }
 
-    public override void attack()
-    {
-        return;
-    }
+    // public override void attack()
+    // {
+    //     return;
+    // }
 
-    public override void take_damage(int damage)
-    {
-        if (!invulnerable) {
-            health -= damage;
-        }
-    }
+    // public override void take_damage(int damage)
+    // {
+    //     if (!invulnerable) {
+    //         health -= damage;
+    //     }
+    // }
 }

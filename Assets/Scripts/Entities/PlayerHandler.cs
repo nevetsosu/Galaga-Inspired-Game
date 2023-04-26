@@ -7,11 +7,21 @@ public class PlayerHandler : Entity
 {
     public float speed;
     private Rigidbody2D RigidBody;
+    public static PlayerHandler Instance;
 
     public PlayerHandler() {
         health = 100;
         invulnerable = false;
         speed = 10.0f; 
+    }
+
+    void Awake() {
+        if (Instance != null) {
+            Destroy(gameObject);
+            return;
+        }   
+
+        Instance = this;
     }
 
     void Start()
