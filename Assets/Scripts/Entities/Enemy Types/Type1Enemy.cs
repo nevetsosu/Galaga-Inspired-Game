@@ -8,13 +8,17 @@ public class Type1Enemy : Enemy
     public float speed;
     private Rigidbody2D RigidBody;
     private BoxCollider2D BoxCollider;
+    private float BoundCollideSpeedGain;
+    private float defaultXVelocity = -10;
+    private float defaultYVelocity = -2;
     
 
     public Type1Enemy() {
         health = 50;
         invulnerable = false;
         speed = 10.0f;
-        defaultVelocity = Vector2.ClampMagnitude(new Vector2(-10, -2), 1) * speed;
+        defaultVelocity = Vector2.ClampMagnitude(new Vector2(defaultXVelocity, defaultYVelocity), 1) * speed;
+        BoundCollideSpeedGain = 1.05f;
     }
 
     // Start is called before the first frame update
@@ -26,16 +30,13 @@ public class Type1Enemy : Enemy
     }
     
     void OnTriggerEnter2D(Collider2D col) {
-        Debug.Log("TRIGGER");
-
-        if(col.gameObject.tag == "LeftBound" || col.gameObject.tag == "RightBound"){
-            reverseHorizontal();
-        }
+        if (col.gameObject.tag == "LeftBound" || col.gameObject.tag == "RightBound"){
+                reverseHorizontal();
+            }
     }
 
     private void reverseHorizontal() {
-        // Debug.Log("Reverse");
-        RigidBody.velocity = new Vector2(-1.05f * RigidBody.velocity.x, RigidBody.velocity.y);
+        RigidBody.velocity = new Vector2(-BoundCollideSpeedGain * RigidBody.velocity.x, RigidBody.velocity.y);
     }
 
     public override void attack()
