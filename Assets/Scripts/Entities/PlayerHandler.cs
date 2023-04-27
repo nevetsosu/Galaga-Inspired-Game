@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerHandler : Mob
 {
+    public GameObject laserPrefab;
     public float speed;
     private Rigidbody2D RigidBody;
     public static PlayerHandler Instance;
@@ -18,7 +19,7 @@ public class PlayerHandler : Mob
         Instance = this;
 
         // intialize default values
-        health = 100;
+        health = 50;
         invulnerable = false;
         speed = 10.0f; 
         RigidBody = this.GetComponent<Rigidbody2D>();
@@ -44,6 +45,10 @@ public class PlayerHandler : Mob
         if (Input.GetKeyDown(KeyCode.Space)) {
             attack();
         }
+
+        // Check death
+
+        if (health < 1) die();
     }
 
     // Update is called once per frame
@@ -69,13 +74,15 @@ public class PlayerHandler : Mob
     public override void attack()
     {
         // Spawn friendly projectile above player
-        GameObject projectile = Instantiate(GameObject.Find("Test Projectile"), new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 5), Quaternion.identity);
+        GameObject projectile = Instantiate(laserPrefab, new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 5), Quaternion.identity);
+        projectile.SetActive(true);
         return;
     }
 
     public override void take_damage(int damage)
     {
         if (!invulnerable) {
+            Debug.Log("PLAYER: Damage taken!");
             health -= damage;
         }
     }

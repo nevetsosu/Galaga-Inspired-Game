@@ -4,7 +4,8 @@ using UnityEngine;
 
 // Base Enemy Class
 public class Enemy : Mob
-{
+{  
+    protected int collision_damage;
     // Does nothing by default
     public override void attack()
     {
