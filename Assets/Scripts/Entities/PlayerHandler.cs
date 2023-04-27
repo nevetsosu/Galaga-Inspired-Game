@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerHandler : Entity
+public class PlayerHandler : Mob
 {
     public float speed;
     private Rigidbody2D RigidBody;

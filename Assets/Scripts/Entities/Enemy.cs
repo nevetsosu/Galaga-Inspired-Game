@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Base Enemy Class
-public class Enemy : Entity
+public class Enemy : Mob
 {
     // Does nothing by default
     public override void attack()

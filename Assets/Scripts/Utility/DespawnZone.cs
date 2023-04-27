@@ -6,6 +6,7 @@ public class DespawnZone : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D col) {
         Debug.Log("Despawn");
-        Destroy(col.gameObject);
+        
+        col.gameObject.GetComponent<Entity>().die();
     }
 }
