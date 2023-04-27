@@ -9,7 +9,7 @@ public abstract class Entity : MonoBehaviour
         return health;
     }
 
-    public virtual void die() {
+    public virtual void die() {     
         Destroy(this.gameObject);
     }
     

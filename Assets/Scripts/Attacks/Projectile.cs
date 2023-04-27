@@ -5,9 +5,6 @@ using UnityEngine;
 // Base class Projectile
 public abstract class Projectile : Entity
 {
-    private override take_damage(int damage) {}
-    private override attack() {}
-
     public abstract void OnTriggerEnter2D(Collider2D col);
     protected static int damage;
     protected static float velocity;
