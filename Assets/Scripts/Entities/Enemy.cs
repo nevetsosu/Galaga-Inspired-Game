@@ -20,4 +20,8 @@ public class Enemy : Mob
         }
         return;
     }
+
+    public void goToPos(Vector2 pos) {
+        
+    }
 }
