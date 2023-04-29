@@ -7,7 +7,8 @@ using UnityEngine.Splines;
 public class Action : MonoBehaviour
 {
     [SerializeField] public float Speed;
-    [SerializeField] public bool OpenFire;
+    [SerializeField] public bool StandingOpenFire;
+    [SerializeField] public bool GungHo;
     [SerializeField] public SplineContainer splineContainer;
     [SerializeField] public int duration;
 }

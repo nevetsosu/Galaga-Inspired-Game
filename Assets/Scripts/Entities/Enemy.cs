@@ -21,7 +21,17 @@ public class Enemy : Mob
         return;
     }
 
-    public void goToPos(Vector2 pos) {
-        
+    private void rotateToward(GameObject obj, float incrementAngle) {
+        Vector3 obj_pos = obj.transform.position;
+        Vector3 current_pos = gameObject.transform.position;
+
+        Vector3 proj = Vector3.Project(current_pos, obj_pos);
+        Vector3 ideal = -(current_pos - proj);
+
+        gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, Quaternion.LookRotation(Vector3.forward, ideal), incrementAngle);
+    }
+
+    public void rotateTowardPlayer(float incrementAngle) {
+        rotateToward(PlayerHandler.Instance.gameObject, incrementAngle);
     }
 }

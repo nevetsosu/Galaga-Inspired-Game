@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 public class Type2Enemy : Enemy
 {
     private bool OpenFire;
+    private bool TrackPlayer;
     private Rigidbody2D RigidBody;
     private SplineAnimate Animator;
     [SerializeField] List<Action> Actions;
@@ -16,6 +17,8 @@ public class Type2Enemy : Enemy
         health = 25;
         collision_damage = 5;
         invulnerable = false;
+        OpenFire = false;
+        TrackPlayer = false;
 
         RigidBody = gameObject.GetComponent<Rigidbody2D>();
         Animator = gameObject.GetComponent<SplineAnimate>();
@@ -38,6 +41,11 @@ public class Type2Enemy : Enemy
         if (OpenFire) {
             attack();
         }
+
+        if (TrackPlayer) {
+            rotateTowardPlayer(1f);
+        }
+
         // check aliveness
         if (health < 1) die(); 
     }
@@ -71,7 +79,14 @@ public class Type2Enemy : Enemy
             Debug.Log("Now " + Animator.Duration * 1000 + " vs " + Actions[0].duration);
 
             Animator.enabled = true;
-            await Task.Delay(Actions[0].duration);
+
+            await Task.Delay(Mathf.CeilToInt(Animator.Duration * 1000));
+
+            TrackPlayer = true; 
+
+            // await Task.Delay(Actions[0].duration);
+
+            // TrackPlayer = false;
             
             // All subsequent animations are done the same way
             for (int i = 1 ; i < Actions.Count; i++) {
@@ -86,7 +101,13 @@ public class Type2Enemy : Enemy
 
                 // Debug.Log("Using Path: " + Actions[i].splineContainer.name + " Speed: " + Actions[i].Speed + " OpenFire: " + Actions[i].OpenFire + " Duration: " + Actions[i].duration);
 
-                await Task.Delay(Actions[i].duration);
+                await Task.Delay(Mathf.CeilToInt(Animator.Duration * 1000));
+
+                // TrackPlayer = true; 
+
+                // await Task.Delay(Actions[i].duration);
+
+                // TrackPlayer = false;
             }
         }
 

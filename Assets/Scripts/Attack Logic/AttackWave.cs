@@ -30,16 +30,7 @@ public abstract class AttackWave : MonoBehaviour
             it.Key.GetComponent<Rigidbody2D>().velocity = it.Value.initial_velocity;
         }
     }
-
-    public int Defeated() {
-        return defeated;
-    }
-
-    // Returns whether a wave should be fulled cleared before the next wave executes.
-    public bool RequireFullClear() {
-        return requireFullClear;
-    }
-
+    
     public virtual void addEnemy(GameObject prefab, int time_before_spawn, Vector2 initial_pos, Vector2 initial_velocity) {
         SpawnInfo info;
         info.time_before_spawn = time_before_spawn;
