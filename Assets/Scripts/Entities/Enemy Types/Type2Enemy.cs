@@ -12,6 +12,9 @@ public class Type2Enemy : Enemy
     private SplineAnimate Animator;
     [SerializeField] List<Action> Actions;
 
+    float lerpRatio = 0;
+    Vector3 initial_pos;
+
     void Awake() {
         // initilize default values
         health = 25;
@@ -20,6 +23,7 @@ public class Type2Enemy : Enemy
         OpenFire = false;
         TrackPlayer = false;
 
+        initial_pos = gameObject.transform.position;
         RigidBody = gameObject.GetComponent<Rigidbody2D>();
         Animator = gameObject.GetComponent<SplineAnimate>();
 
@@ -33,21 +37,36 @@ public class Type2Enemy : Enemy
     }
 
     void Start() {
-        execute();
+        // execute();
     }
 
     void Update() {
 
-        if (OpenFire) {
-            attack();
-        }
 
-        if (TrackPlayer) {
-            rotateTowardPlayer(1f);
-        }
+        // if (OpenFire) {
+        //     attack();
+        // }
 
-        // check aliveness
-        if (health < 1) die(); 
+        // if (TrackPlayer) {
+        //     rotateTowardPlayer(1f);
+        // }
+
+        // // check aliveness
+        // if (health < 1) die(); 
+    }
+
+    void FixedUpdate() {
+        Spline sp = Actions[0].splineContainer.Spline;
+
+        Vector3 location;
+
+        location = sp.EvaluatePosition(lerpRatio);
+
+        this.gameObject.transform.position = location + initial_pos;
+        
+        Debug.Log(lerpRatio);
+        lerpRatio = Mathf.Lerp(0f, 1f, lerpRatio);
+        lerpRatio += .001f;
     }
     
     void OnTriggerEnter2D(Collider2D col) {
