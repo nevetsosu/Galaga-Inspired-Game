@@ -9,11 +9,7 @@ public class Type2Enemy : Enemy
     private bool OpenFire;
     private bool TrackPlayer;
     private Rigidbody2D RigidBody;
-    private SplineAnimate Animator;
-    [SerializeField] List<Action> Actions;
-
-    float lerpRatio = 0;
-    Vector3 initial_pos;
+    List<Action> Actions;
 
     void Awake() {
         // initilize default values
@@ -23,13 +19,9 @@ public class Type2Enemy : Enemy
         OpenFire = false;
         TrackPlayer = false;
 
-        initial_pos = gameObject.transform.position;
-        RigidBody = gameObject.GetComponent<Rigidbody2D>();
-        Animator = gameObject.GetComponent<SplineAnimate>();
-
-        Animator.AnimationMethod = SplineAnimate.Method.Speed; 
-
         Actions = new List<Action>(); 
+
+        RigidBody = gameObject.GetComponent<Rigidbody2D>();
 
         foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action>()) {
            Actions.Add(a); 
@@ -37,38 +29,13 @@ public class Type2Enemy : Enemy
     }
 
     void Start() {
-        // execute();
+        MobTrackObject FO = gameObject.AddComponent<MobTrackObject>();
+        FO.setTarget(PlayerHandler.Instance.gameObject);
+        FO.Resume();
+
+        executeActions();
     }
 
-    void Update() {
-
-
-        // if (OpenFire) {
-        //     attack();
-        // }
-
-        // if (TrackPlayer) {
-        //     rotateTowardPlayer(1f);
-        // }
-
-        // // check aliveness
-        // if (health < 1) die(); 
-    }
-
-    void FixedUpdate() {
-        Spline sp = Actions[0].splineContainer.Spline;
-
-        Vector3 location;
-
-        location = sp.EvaluatePosition(lerpRatio);
-
-        this.gameObject.transform.position = location + initial_pos;
-        
-        Debug.Log(lerpRatio);
-        lerpRatio = Mathf.Lerp(0f, 1f, lerpRatio);
-        lerpRatio += .001f;
-    }
-    
     void OnTriggerEnter2D(Collider2D col) {
 
         // does collision damage
@@ -84,51 +51,29 @@ public class Type2Enemy : Enemy
     }
 
     public override void die() {
-        Destroy(transform.parent.gameObject);
+        Destroy(gameObject.transform.parent.gameObject);
     }
 
-    async void execute() {
-        if(Actions.Count > 0) {
-            // The first animation is triggered by the "Play on the Wake" before the Animator is first enabled
-            Animator.Container = Actions[0].splineContainer;
-            Animator.MaxSpeed = Actions[0].Speed;
+    async void executeActions() {
+        foreach (Action a in Actions) {
+            MobMoveDefinedPath MMDP = gameObject.AddComponent<MobMoveDefinedPath>();
+            MMDP.setSpline(a.splineContainer);
+            MMDP.Speed = a.Speed;
 
-            Debug.Log(Animator.Duration * 1000 + " vs " + Actions[0].duration);
-            if (Animator.Duration * 1000  > Actions[0].duration) Actions[0].duration = Mathf.CeilToInt(Animator.Duration * 1000);
-            Debug.Log("Now " + Animator.Duration * 1000 + " vs " + Actions[0].duration);
-
-            Animator.enabled = true;
-
-            await Task.Delay(Mathf.CeilToInt(Animator.Duration * 1000));
-
-            TrackPlayer = true; 
-
-            // await Task.Delay(Actions[0].duration);
-
-            // TrackPlayer = false;
+            // check gungho and set openfire HERE
             
-            // All subsequent animations are done the same way
-            for (int i = 1 ; i < Actions.Count; i++) {
-
-                // SplineAnimate setup 
-                Animator.Container = Actions[i].splineContainer;
-                Animator.MaxSpeed = Actions[i].Speed;
-
-                if (Animator.Duration * 1000 > Actions[i].duration) Actions[i].duration = Mathf.CeilToInt(Animator.Duration * 1000);
-
-                Animator.Restart(true);
-
-                // Debug.Log("Using Path: " + Actions[i].splineContainer.name + " Speed: " + Actions[i].Speed + " OpenFire: " + Actions[i].OpenFire + " Duration: " + Actions[i].duration);
-
-                await Task.Delay(Mathf.CeilToInt(Animator.Duration * 1000));
-
-                // TrackPlayer = true; 
-
-                // await Task.Delay(Actions[i].duration);
-
-                // TrackPlayer = false;
+            MMDP.Resume();
+            while(!MMDP.isFinished()) {
+                await Task.Yield();
             }
-        }
 
+            // check if NOT standingFIRE and GUNGHO
+                // disable GUNGHO
+            // else ATTACH OPENFIRE
+
+            // check the next spline and begin looking in its direction
+
+            Destroy(MMDP);
+        }
     }
 }
