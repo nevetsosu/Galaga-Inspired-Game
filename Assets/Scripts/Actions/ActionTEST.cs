@@ -1,41 +1,25 @@
 using UnityEngine;
 using UnityEngine.Splines;
-using System.Threading.Tasks;
 
-public class ActionMoveDefinedPath : Action
+public class ActionTEST : Action
 {
     [SerializeField] SplineContainer spline;
-    [SerializeField] protected float speed;
 
-    protected override async void execute() {
+    protected override void execute() {
         if (preCheck()) {
+            Debug.Log("precheck pass");
             MobMoveDefinedPath MMDP;
             if (!PerformingObj.TryGetComponent<MobMoveDefinedPath>(out MMDP)) {
                 MMDP = PerformingObj.AddComponent<MobMoveDefinedPath>();   
                 MMDP.setSpline(spline);
-                MMDP.Speed = speed;
-            } else {
-                Debug.Log("component found");
-                MMDP.resetProgress(); 
             }
 
             MMDP.Resume();
-
-            while (!MMDP.isFinished()) {
-                await Task.Yield();
-            } 
-            
-            taskDone = true;
-
         }
     }
 
-    async void test() {
-        await Task.Delay(1000); 
-    }
-
     private bool preCheck() {
-         bool valid = true;
+        bool valid = true;
         
         if (PerformingObj == null)  {
             Debug.Log("Missing Performing Obj");
@@ -46,6 +30,6 @@ public class ActionMoveDefinedPath : Action
             Debug.Log("Missing Spline");
             valid = false;
         }
-        return valid;
+        return valid; 
     }
 }       

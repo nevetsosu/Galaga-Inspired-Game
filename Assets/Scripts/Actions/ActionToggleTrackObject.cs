@@ -4,20 +4,33 @@ using UnityEngine;
 using UnityEngine.Splines;
 using System.Threading.Tasks;
 
-public class ActionTopggleTrackObject : Action
+public class ActionToggleTrackObject : Action
 {
     [SerializeField] private GameObject TargetObj; 
     [SerializeField] private int incrementAngle;
 
+    void Awake() {
+        taskDone = true;
+    }
+
     protected override void execute() {
         if (preCheck()) {
             MobTrackObject MTO;
-            MTO = PerformingObj.AddComponent<MobTrackObject>();  
+            if (!PerformingObj.TryGetComponent<MobTrackObject>(out MTO)) {
+                MTO = PerformingObj.AddComponent<MobTrackObject>(); 
+            }
+             
             MTO.setTarget(TargetObj);
             MTO.IncrementAngle = incrementAngle; 
-            MTO.Resume();
-        } else {
-            Debug.Log("Precheck fail");
+
+            if (MTO.IsTracking) {
+                Debug.Log("Pausing");
+                MTO.Pause();
+            } else {
+                Debug.Log("REsuming");
+                MTO.Resume();
+            }
+            Destroy(this); 
         }
     }
 

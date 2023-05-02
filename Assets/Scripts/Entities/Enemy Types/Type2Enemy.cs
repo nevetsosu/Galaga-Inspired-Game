@@ -6,33 +6,23 @@ using System.Threading.Tasks;
 
 public class Type2Enemy : Enemy
 {
-    private bool OpenFire;
-    private bool TrackPlayer;
-    private Rigidbody2D RigidBody;
     List<Action> Actions;
 
     void Awake() {
         // initilize default values
         health = 25;
         collision_damage = 5;
-        invulnerable = false;
-        OpenFire = false;
-        TrackPlayer = false;
+        invulnerable = false;   
 
         Actions = new List<Action>(); 
 
-        RigidBody = gameObject.GetComponent<Rigidbody2D>();
-
         foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action>()) {
-           Actions.Add(a); 
+            Actions.Add(a); 
+            Debug.Log("action added");
         }
     }
 
     void Start() {
-        MobTrackObject FO = gameObject.AddComponent<MobTrackObject>();
-        FO.setTarget(PlayerHandler.Instance.gameObject);
-        FO.Resume();
-
         executeActions();
     }
 
@@ -54,9 +44,14 @@ public class Type2Enemy : Enemy
         Destroy(gameObject.transform.parent.gameObject);
     }
 
-    void executeActions() {
+    async void executeActions() {
         foreach (Action a in Actions) {
+            Debug.Log("executing");
             a.Execute(gameObject); 
-        }
+
+            while (!a.TaskDone) {
+                await Task.Yield(); 
+            }
+        }   
     }
 }

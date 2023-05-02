@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 // Component has a set turning speed
 public class MobMoveDefinedPath : MobMove
 {
-    [SerializeField] protected SplineContainer splinePath;
+    protected SplineContainer splinePath;
     protected float progress;
+    private float increment;
     protected float relativeProgress;
-    [SerializeField] protected bool loop;
-    [SerializeField] protected bool trackPath;
-    [SerializeField] protected bool isPaused;
+    protected bool loop;
+    protected bool trackPath;
+    protected bool isPaused;
 
     // Speed is in units of unity length per frame
     public float Speed 
@@ -23,7 +24,6 @@ public class MobMoveDefinedPath : MobMove
             increment = speed / splinePath.CalculateLength();
         }
     }
-    private float increment;
 
     public float Progress
     {
@@ -35,6 +35,7 @@ public class MobMoveDefinedPath : MobMove
     public bool Loop
     {
         set { loop = value; }
+        get { return loop; }
     }
 
     public bool IsPaused 
@@ -48,16 +49,24 @@ public class MobMoveDefinedPath : MobMove
         set { trackPath = value;  }
     }
 
+    public SplineContainer SplinePath
+    {
+        get { return splinePath; }
+    }
+
     void Awake() {
         progress = 0f;
         relativeProgress = 0f;
         loop = false;
         trackPath = false;
         isPaused = true;
-        speed = 10;
     }
 
     void Start() {
+        if (Speed == 0) {
+            Debug.Log("Movement with 0 speed! Removing MobMoveDefinedPath!");
+            Destroy(this);
+        }
         gameObject.transform.position = splinePath.EvaluatePosition(0);
     }
 
@@ -77,13 +86,15 @@ public class MobMoveDefinedPath : MobMove
                 // loop or pause
                 if (loop) resetRelativeProgress();
                 else Pause();
+            } else {
+                progress = relativeProgress;
             }
 
             gameObject.transform.position = splinePath.EvaluatePosition(relativeProgress);
 
             if (trackPath) gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, splinePath.EvaluateTangent(RelativeProgress));
 
-            debugDetails(); 
+            // debugDetails(); 
         }   
     }
 

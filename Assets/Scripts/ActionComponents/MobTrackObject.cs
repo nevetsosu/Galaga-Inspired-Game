@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MobTrackObject : MonoBehaviour
 {
-    private int incrementAngle;
+    [SerializeField] private int incrementAngle;
     [SerializeField] private bool isTracking;
     [SerializeField] private GameObject target;
 
@@ -28,6 +28,10 @@ public class MobTrackObject : MonoBehaviour
     void Awake() {
         incrementAngle = 1;
         isTracking = false;
+    }
+
+    void Start() {
+        target = PlayerHandler.Instance.gameObject;
     }
 
     void Update() {
