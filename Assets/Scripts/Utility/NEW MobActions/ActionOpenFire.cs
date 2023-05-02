@@ -6,17 +6,17 @@ public class ActionOpenFire : Action2
     [SerializeField] private int firingDelay = 1000;
     [SerializeField] private bool coolDown = false;
 
-    public override void execute() {
-        
+    protected override void execute() {
+        this.enabled = !this.enabled;
     }
 
     void Start() {
         taskDone = true; 
     }
 
-    void Update() {
+    void Update() { 
         if (!coolDown) {
-            gameObject.GetComponent<Mob>().attack();
+            PerformingOn.GetComponent<Mob>().attack();
             coolDown = true;
             StartCoroutine("awaitCoolDown");
         }

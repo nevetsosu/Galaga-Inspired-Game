@@ -16,7 +16,7 @@ public class Type3Enemy : Enemy
 
         Actions = new List<Action2>(); 
 
-        foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action2>()) {
+        foreach (Action2 a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action2>()) {
             Actions.Add(a); 
         }
 

@@ -11,5 +11,21 @@ public abstract class Action2 : MobUtility
         get { return taskDone; }
     }
     
-    public abstract void execute(GameObject PerformOn);
+    public void Execute(GameObject PerformOn) {
+        this.PerformingOn = PerformOn;
+
+        if (PerformingOn == null) { 
+            Debug.Log("null PerformingOn");
+            return;
+        }
+
+        if (!preCheck()) {
+            Debug.Log("preCheck fail");
+            return;
+        }
+
+        execute();
+    }
+
+    protected abstract void execute();
 }

@@ -2,7 +2,9 @@ using UnityEngine;
 
 public abstract class MobUtility : MonoBehaviour
 {
-    void Awake() {
+    protected virtual void Awake() {
+
+        Debug.Log("MOB UTIL AWAKE");
         this.enabled = false;
     }
 
