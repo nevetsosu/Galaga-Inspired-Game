@@ -18,15 +18,16 @@ public class MobTrackObject : MonoBehaviour
         get { return incrementAngle; }
         set { incrementAngle = value; }
     }
+
+    public bool IsTracking
+    {
+        get { return isTracking; }
+    }
     
     // default incrementAngle of 1
     void Awake() {
         incrementAngle = 1;
         isTracking = false;
-    }
-
-    void Start() {
-        target = PlayerHandler.Instance.gameObject;
     }
 
     void Update() {

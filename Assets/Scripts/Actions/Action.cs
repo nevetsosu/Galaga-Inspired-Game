@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
+using System.Threading.Tasks;
 
-[System.Serializable]
-public class Action : MonoBehaviour
+public abstract class Action : MonoBehaviour
 {
-    [SerializeField] public float Speed;
-    [SerializeField] public bool StandingOpenFire;
-    [SerializeField] public bool GungHo;
-    [SerializeField] public SplineContainer splineContainer;
-    [SerializeField] public int duration;
-}
+    protected GameObject PerformingObj;
+    public void Execute(GameObject performingObj) {
+        PerformingObj = performingObj;
+        execute(); 
+    }
+    protected abstract void execute();
+    public void performAs(GameObject as_this) {
+        PerformingObj = as_this;
+    }
+}       

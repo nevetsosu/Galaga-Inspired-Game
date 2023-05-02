@@ -54,26 +54,9 @@ public class Type2Enemy : Enemy
         Destroy(gameObject.transform.parent.gameObject);
     }
 
-    async void executeActions() {
+    void executeActions() {
         foreach (Action a in Actions) {
-            MobMoveDefinedPath MMDP = gameObject.AddComponent<MobMoveDefinedPath>();
-            MMDP.setSpline(a.splineContainer);
-            MMDP.Speed = a.Speed;
-
-            // check gungho and set openfire HERE
-            
-            MMDP.Resume();
-            while(!MMDP.isFinished()) {
-                await Task.Yield();
-            }
-
-            // check if NOT standingFIRE and GUNGHO
-                // disable GUNGHO
-            // else ATTACH OPENFIRE
-
-            // check the next spline and begin looking in its direction
-
-            Destroy(MMDP);
+            a.Execute(gameObject); 
         }
     }
 }

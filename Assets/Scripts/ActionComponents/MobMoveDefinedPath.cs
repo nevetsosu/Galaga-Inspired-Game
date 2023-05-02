@@ -10,6 +10,7 @@ public class MobMoveDefinedPath : MobMove
     protected float progress;
     protected float relativeProgress;
     [SerializeField] protected bool loop;
+    [SerializeField] protected bool trackPath;
     [SerializeField] protected bool isPaused;
 
     // Speed is in units of unity length per frame
@@ -41,10 +42,17 @@ public class MobMoveDefinedPath : MobMove
         get { return isPaused; }
     }
 
+    public bool TrackPath
+    {
+        get { return trackPath; }
+        set { trackPath = value;  }
+    }
+
     void Awake() {
         progress = 0f;
         relativeProgress = 0f;
         loop = false;
+        trackPath = false;
         isPaused = true;
         speed = 10;
     }
@@ -72,6 +80,9 @@ public class MobMoveDefinedPath : MobMove
             }
 
             gameObject.transform.position = splinePath.EvaluatePosition(relativeProgress);
+
+            if (trackPath) gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, splinePath.EvaluateTangent(RelativeProgress));
+
             debugDetails(); 
         }   
     }
