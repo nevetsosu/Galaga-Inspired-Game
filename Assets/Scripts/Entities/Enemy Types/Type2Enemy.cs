@@ -52,6 +52,7 @@ public class Type2Enemy : Enemy
             while (!a.TaskDone) {
                 await Task.Yield(); 
             }
+            Debug.Log("Actions Done");
         }   
     }
 }

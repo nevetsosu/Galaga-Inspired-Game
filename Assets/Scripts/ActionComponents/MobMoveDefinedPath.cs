@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 // Component has a set turning speed
 public class MobMoveDefinedPath : MobMove
 {
-    protected SplineContainer splinePath;
-    protected float progress;
-    private float increment;
-    protected float relativeProgress;
-    protected bool loop;
-    protected bool trackPath;
-    protected bool isPaused;
+    [SerializeField] protected SplineContainer splinePath;
+    [SerializeField] protected float progress;
+    [SerializeField] private float increment;
+    [SerializeField] protected float relativeProgress;
+    [SerializeField] protected bool loop;
+    [SerializeField] protected bool trackPath;
+    [SerializeField] protected bool isPaused;
 
     // Speed is in units of unity length per frame
     public float Speed 
@@ -80,7 +80,7 @@ public class MobMoveDefinedPath : MobMove
             // catch what to do when the end is reached
             if (Mathf.Abs(relativeProgress) >= 1) {
                 // update progresses
-                relativeProgress = Mathf.Floor(relativeProgress);
+                relativeProgress = 1;
                 progress = Mathf.Floor(progress) + relativeProgress;
                 
                 // loop or pause
@@ -121,12 +121,12 @@ public class MobMoveDefinedPath : MobMove
         resetProgress();
     }
 
-    public bool isFinished() {
+    public bool singlePass() {
         return relativeProgress == 1;
     }
 
     // FOR DEBUGGING
-    private void debugDetails() {
+    public void debugDetails() {
         Debug.Log("Progress: " + Progress + " RelProgress: " + RelativeProgress);
     }
 }

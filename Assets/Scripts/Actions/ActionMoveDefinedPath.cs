@@ -5,23 +5,34 @@ using System.Threading.Tasks;
 public class ActionMoveDefinedPath : Action
 {
     [SerializeField] SplineContainer spline;
-    [SerializeField] protected float speed;
+    [SerializeField] bool trackPath = false;
+    [SerializeField] bool loop = false; 
+    [SerializeField] protected float speed = 1;
 
     protected override async void execute() {
         if (preCheck()) {
             MobMoveDefinedPath MMDP;
             if (!PerformingObj.TryGetComponent<MobMoveDefinedPath>(out MMDP)) {
-                MMDP = PerformingObj.AddComponent<MobMoveDefinedPath>();   
-                MMDP.setSpline(spline);
-                MMDP.Speed = speed;
+                MMDP = PerformingObj.AddComponent<MobMoveDefinedPath>();  
             } else {
-                Debug.Log("component found");
-                MMDP.resetProgress(); 
+                if (MMDP.Loop) { 
+                    MMDP.Loop = false;
+                }
+
+                while (!MMDP.singlePass()) { 
+                    await Task.Yield();
+                }
+                
             }
+
+            MMDP.setSpline(spline);
+            MMDP.Speed = speed;
+            MMDP.TrackPath = trackPath;
+            MMDP.Loop = loop;
 
             MMDP.Resume();
 
-            while (!MMDP.isFinished()) {
+            while (!MMDP.singlePass()) {
                 await Task.Yield();
             } 
             

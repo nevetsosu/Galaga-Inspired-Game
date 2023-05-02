@@ -35,18 +35,19 @@ public class ActionToggleTrackObject : Action
     }
 
     private bool preCheck() {
+        bool valid = true;
         if (PerformingObj == null)  {
             Debug.Log("Missing PerformingObj");
-            return false;
+            valid = false;
         }
         if (TargetObj == null) {
             Debug.Log("Missing TargetObj");
-            return false;
+            valid = false;
         }
         if (incrementAngle == 0) {
             Debug.Log("Missing incrementAngle");
-            return false;
+            valid = false;
         }
-        return true; 
+        return valid; 
     }
 }       
