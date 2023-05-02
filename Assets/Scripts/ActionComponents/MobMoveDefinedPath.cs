@@ -11,8 +11,9 @@ public class MobMoveDefinedPath : MobMove
     [SerializeField] private float increment;
     [SerializeField] protected float relativeProgress;
     [SerializeField] protected bool loop;
-    [SerializeField] protected bool trackPath;
+    [SerializeField] protected bool isTracking;
     [SerializeField] protected bool isPaused;
+    protected MobLook ML;
 
     // Speed is in units of unity length per frame
     public float Speed 
@@ -43,10 +44,10 @@ public class MobMoveDefinedPath : MobMove
         get { return isPaused; }
     }
 
-    public bool TrackPath
+    public bool IsTracking
     {
-        get { return trackPath; }
-        set { trackPath = value;  }
+        get { return isTracking; }
+        set { isTracking = value;  }
     }
 
     public SplineContainer SplinePath
@@ -58,7 +59,7 @@ public class MobMoveDefinedPath : MobMove
         progress = 0f;
         relativeProgress = 0f;
         loop = false;
-        trackPath = false;
+        isTracking = false;
         isPaused = true;
     }
 
@@ -68,31 +69,35 @@ public class MobMoveDefinedPath : MobMove
             Destroy(this);
         }
         gameObject.transform.position = splinePath.EvaluatePosition(0);
+
+        if (IsTracking && gameObject.GetComponent<MobLook>() == null) {
+            Debug.Log("Object doesn't contain a MobLook object, disabling isTracking");
+            IsTracking = false;
+        } else {
+            ML = gameObject.GetComponent<MobLook>();
+        }
     }
 
     void Update() {
         if (!isPaused) {
             // update pos
-            
-            // increment progress 
-            relativeProgress += increment * Time.deltaTime;
-            
-            // catch what to do when the end is reached
-            if (Mathf.Abs(relativeProgress) >= 1) {
-                // update progresses
+            if (relativeProgress == 1) {
                 relativeProgress = 1;
                 progress = Mathf.Floor(progress) + relativeProgress;
-                
-                // loop or pause
+
                 if (loop) resetRelativeProgress();
                 else Pause();
             } else {
                 progress = relativeProgress;
             }
+            
+            // increment progress 
+            relativeProgress += increment * Time.deltaTime;
+            relativeProgress = Mathf.Clamp01(relativeProgress);
 
             gameObject.transform.position = splinePath.EvaluatePosition(relativeProgress);
 
-            if (trackPath) gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, splinePath.EvaluateTangent(RelativeProgress));
+            if (isTracking) ML.lookToward(splinePath.EvaluateTangent(RelativeProgress));
 
             // debugDetails(); 
         }   

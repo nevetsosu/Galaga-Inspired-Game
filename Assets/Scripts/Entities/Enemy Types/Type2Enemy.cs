@@ -18,8 +18,9 @@ public class Type2Enemy : Enemy
 
         foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action>()) {
             Actions.Add(a); 
-            Debug.Log("action added");
         }
+
+        gameObject.AddComponent<MobLook>(); 
     }
 
     void Start() {
@@ -33,26 +34,17 @@ public class Type2Enemy : Enemy
             PlayerHandler.Instance.take_damage(collision_damage);
         }
     }
-
-    public override void attack()
-    {
-        Debug.Log("ATTACK");
-        return; 
-    }
-
     public override void die() {
         Destroy(gameObject.transform.parent.gameObject);
     }
 
     async void executeActions() {
         foreach (Action a in Actions) {
-            Debug.Log("executing");
             a.Execute(gameObject); 
 
             while (!a.TaskDone) {
                 await Task.Yield(); 
             }
-            Debug.Log("Actions Done");
         }   
     }
 }

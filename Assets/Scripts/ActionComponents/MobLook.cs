@@ -11,12 +11,10 @@ public class MobLook : MonoBehaviour
     // default looks toward the player
     void Awake() {
         increment_angle = 1;  
-        if (PlayerHandler.Instance != null) {
-            lookAt(PlayerHandler.Instance.gameObject);
-        }
+        rot_goal = Quaternion.identity;
     }
 
-    void Update() {
+    void updateDirection() {
         // Increment current rotation toward ideal rotation
         gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, rot_goal, increment_angle);
     }
@@ -24,6 +22,7 @@ public class MobLook : MonoBehaviour
     // sets the desired look-direction.
     public void lookToward(Vector3 direction) {
         rot_goal = Quaternion.LookRotation(Vector3.forward, direction);
+        updateDirection();
     }
 
     // sets the desired look-toward position

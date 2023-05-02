@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class ActionMoveDefinedPath : Action
 {
     [SerializeField] SplineContainer spline;
-    [SerializeField] bool trackPath = false;
+    [SerializeField] bool isTracking = false;
     [SerializeField] bool loop = false; 
     [SerializeField] protected float speed = 1;
 
@@ -27,7 +27,7 @@ public class ActionMoveDefinedPath : Action
 
             MMDP.setSpline(spline);
             MMDP.Speed = speed;
-            MMDP.TrackPath = trackPath;
+            MMDP.IsTracking = isTracking;
             MMDP.Loop = loop;
 
             MMDP.Resume();

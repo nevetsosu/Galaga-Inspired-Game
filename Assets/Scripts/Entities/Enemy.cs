@@ -17,7 +17,7 @@ public class Enemy : Mob
         Vector3 velocity = dir;
 
         // Scale how far the laser should be from the player
-        dir *= 1;
+        dir *= 10;
 
         // Scale speed
         velocity *= laserPrefab.GetComponent<Projectile>().Velocity();
