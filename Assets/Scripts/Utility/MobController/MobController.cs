@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MobController : MonoBehaviour
+public abstract class MobController : MonoBehaviour
 {
     void Awake() {
         if (gameObject.GetComponent<Mob>() == null) {
@@ -9,5 +9,5 @@ public class MobController : MonoBehaviour
         }
     }
 
-    abstract void PreCheck();
-}
+    protected abstract void PreCheck();
+}   
