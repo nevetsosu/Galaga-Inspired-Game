@@ -38,6 +38,12 @@ public class MobTrackObject : Action
 
     protected override void execute() {
         this.enabled = !this.enabled;
+
+        if (this.enabled) {
+            MLC.inUse = true;
+        } else {
+            MLC.inUse = false;
+        }
     }
 
     public bool onTarget() {

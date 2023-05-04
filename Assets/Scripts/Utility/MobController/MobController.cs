@@ -14,5 +14,5 @@ public abstract class MobController : MobUtility
 
         Debug.Log("MobController Awake");
     }
-    protected bool inUse = false;
+    public bool inUse = false;
 }   

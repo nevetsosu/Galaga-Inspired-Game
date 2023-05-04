@@ -4,15 +4,21 @@ using System.Threading.Tasks;
 
 // Component that will make the gameObject face toward a certain direction or position.
 // Component has a set turning speed
-public class MobMoveDefinedPath : MobMove
+public class MobMoveDefinedPath : Action
 {
+    [SerializeField] public bool Loop = false;
+    [SerializeField] public bool IsTracking = false;
+
     [SerializeField] protected SplineContainer splinePath;
-    [SerializeField] protected float progress;
-    [SerializeField] private float increment;
-    [SerializeField] protected float relativeProgress;
-    [SerializeField] protected bool loop;
-    [SerializeField] protected bool isTracking;
-    [SerializeField] protected bool isPaused;
+    [SerializeField] protected float speed = 1f;
+    [SerializeField] protected int pass = 0;
+    [SerializeField] protected float progress = 0f;
+    [SerializeField] protected float relativeProgress = 0f;
+    [SerializeField] protected float increment = 0; 
+
+    protected MobLookController MLC;
+    protected MobMovementController MMC;
+
     protected MobLook ML;
 
     // Speed is in units of unity length per frame
@@ -30,65 +36,34 @@ public class MobMoveDefinedPath : MobMove
     {
         get { return progress; }
     }
+
     public float RelativeProgress {
         get { return relativeProgress; }
     }
-    public bool Loop
-    {
-        set { loop = value; }
-        get { return loop; }
-    }
 
-    public bool IsPaused 
-    {
-        get { return isPaused; }
-    }
-
-    public bool IsTracking
-    {
-        get { return isTracking; }
-        set { isTracking = value;  }
-    }
-
-    public SplineContainer SplinePath
-    {
+    public SplineContainer SplinePath {
         get { return splinePath; }
     }
 
-    void Awake() {
-        progress = 0f;
-        relativeProgress = 0f;
-        loop = false;
-        isTracking = false;
-        isPaused = true;
-    }
-
-    void Start() {
-        if (Speed == 0) {
-            Debug.Log("Movement with 0 speed! Removing MobMoveDefinedPath!");
-            Destroy(this);
+    protected override void Awake() { 
+        if (!PerformingObj.TryGetComponent<MobMovementController>(out MMC)) {
+            MMC = PerformingObj.AddComponent<MobMovementController>();
         }
-        gameObject.transform.position = splinePath.EvaluatePosition(0);
 
-        if (IsTracking && gameObject.GetComponent<MobLook>() == null) {
-            Debug.Log("Object doesn't contain a MobLook object, disabling isTracking");
-            IsTracking = false;
-        } else {
-            ML = gameObject.GetComponent<MobLook>();
+        if (IsTracking && !PerformingObj.TryGetComponent<MobLookController>(out MLC)) {
+            MLC = PerformingObj.AddComponent<MobLookController>(); 
         }
     }
 
     void Update() {
-        if (!isPaused) {
             // update pos
-            if (relativeProgress == 1) {
-                relativeProgress = 1;
-                progress = Mathf.Floor(progress) + relativeProgress;
+            progress = pass + relativeProgress;
 
-                if (loop) resetRelativeProgress();
+            if (singlePass()) {
+                pass++;
+
+                if (Loop) resetRelativeProgress();
                 else Pause();
-            } else {
-                progress = relativeProgress;
             }
             
             // increment progress 
@@ -97,18 +72,39 @@ public class MobMoveDefinedPath : MobMove
 
             gameObject.transform.position = splinePath.EvaluatePosition(relativeProgress);
 
-            if (isTracking) ML.lookToward(splinePath.EvaluateTangent(RelativeProgress));
+            if (IsTracking) ML.lookToward(splinePath.EvaluateTangent(RelativeProgress));
 
-            // debugDetails(); 
-        }   
+            // debugDetails();  
+    }
+
+    protected override void execute() {
+        this.enabled = !this.enabled;
+    }
+
+    protected override bool preCheck() {
+        bool valid = true;
+
+        if (base.preCheck()) valid = false;
+
+        if (splinePath == null) {
+            Debug.Log("spline Path null");
+            valid = false;
+        }
+
+        if (Speed == 0) {
+            Debug.Log("Speed is set to 0");
+            valid = false;
+        }
+
+        return valid;    
     }
 
     public void Resume() {
-        isPaused = false;
+        this.enabled = true;
     }
 
     public void Pause() {
-        isPaused = true;
+        this.enabled = false;
     }
 
     public void resetProgress() {
