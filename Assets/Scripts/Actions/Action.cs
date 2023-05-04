@@ -1,16 +1,42 @@
 using UnityEngine;
 
-public abstract class Action : MonoBehaviour
+public abstract class Action : MobUtility 
 {
-    protected bool taskDone;
-    public bool TaskDone
+    [SerializeField] protected GameObject PerformingObj;
+
+    protected bool taskDone = false;
+
+    public bool TaskDone 
     {
         get { return taskDone; }
     }
-    protected GameObject PerformingObj;
-    public void Execute(GameObject performingObj) {
-        PerformingObj = performingObj;
-        execute(); 
+
+    protected override void Awake() {
+        base.Awake();    
+        if (PerformingObj == null) PerformingObj = gameObject;
+        Debug.Log("Mob Action2 Awake");
     }
-    protected abstract void execute();
-}       
+
+    public void Execute() {
+        if (PerformingObj == null) { 
+            Debug.Log("null PerformingOn");
+            return;
+        }
+
+        if (!preCheck()) {
+            Debug.Log("preCheck fail");
+            return;
+        }
+
+        execute();
+    }
+    
+    public void Execute(GameObject PerformObj) {
+        this.PerformingObj = PerformObj;
+        Execute();
+    }
+
+    protected virtual void execute() {
+        this.enabled = true;
+    }
+}

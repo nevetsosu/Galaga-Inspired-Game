@@ -2,19 +2,18 @@ using UnityEngine;
 
 public class ActionToggleOpenFire : Action
 {
-    private OpenFire OF; 
-    [SerializeField] private int FireRateDelay = 1000;
+    [SerializeField] private int firingDelay = 1000;
 
     protected override void execute() {
+        OpenFire OF; 
         if (!PerformingObj.TryGetComponent<OpenFire>(out OF)) {
             OF = PerformingObj.AddComponent<OpenFire>();
         }
+        
+        OF.firingDelay = firingDelay;
 
-        if (!OF.Firing) {
-            OF.FireRateDelay = FireRateDelay;
-        }
+        OF.Execute(PerformingObj); 
 
-        OF.toggleOpenFire();
         taskDone = true;
     }
 }

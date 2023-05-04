@@ -1,67 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
-public class MobTrackObject : MonoBehaviour
+public class MobTrackObject : Action
 {
-    [SerializeField] private int incrementAngle;
-    [SerializeField] private bool isTracking;
-    [SerializeField] private GameObject target;
+    [SerializeField] public int incrementAngle = 1;
+    [SerializeField] public GameObject target;
+    private static MobTrackObject Instance;
+    private MobLookController MLC;
 
-    public GameObject Target 
-    {
-        get { return target; }
-    }
-
-    public int IncrementAngle
-    {
-        get { return incrementAngle; }
-        set { incrementAngle = value; }
-    }
-
-    public bool IsTracking
-    {
-        get { return isTracking; }
-    }
+    public bool found = false;
     
     // default incrementAngle of 1
-    void Awake() {
-        incrementAngle = 1;
-        isTracking = false;
-    }
+    protected override void Awake() {
+        base.Awake();
 
-    void Start() {
-        target = PlayerHandler.Instance.gameObject;
+        if (Instance != null) {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+
+        if (!PerformingObj.TryGetComponent<MobLookController>(out MLC)) {
+            MLC = PerformingObj.AddComponent<MobLookController>();
+        }
     }
 
     void Update() {
-        if (isTracking) {
-            if (target != null) rotateToward(target);
-            else Destroy(this);                                // remove tracking if target is null
-        }
+        if (target != null && !onTarget()) {
+            found = false;
+            MLC.incrementToward(target, incrementAngle);
+            Debug.Log("Turning");
+        }         
     }
-    
-   private void rotateToward(GameObject target) {
-        // get the direction vector
-        Vector3 ideal = target.transform.position - gameObject.transform.position;
 
-        // get the associated quaternion rotation and assign as current rotation
-        Quaternion rot = Quaternion.LookRotation(Vector3.forward, ideal);
+    protected override void execute() {
+        this.enabled = !this.enabled;
+    }
 
-        // Increment current rotation toward ideal rotation
-        gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, rot, incrementAngle);
-   }
+    public bool onTarget() {
+        if (PerformingObj.transform.rotation == Quaternion.LookRotation(Vector3.forward, target.transform.position - PerformingObj.transform.position)) {
+            found = true;
+            return true;
+        }
 
-   public void Resume() {
-        isTracking = true;
-   }
-
-   public void Pause() {
-        isTracking = false;
-   }
-
-   public void setTarget(GameObject target) {
-        this.target = target;
-   }
+        return false; 
+    }
 }
 

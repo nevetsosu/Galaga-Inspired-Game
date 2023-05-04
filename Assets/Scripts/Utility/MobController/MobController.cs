@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class MobController : MobUtility
 {
     protected override void Awake() {
-        this.Awake(); 
+        base.Awake(); 
 
         // Check for a Mob Component
         if (gameObject.GetComponent<Mob>() == null) 

@@ -5,7 +5,11 @@ public class MobLookController : MobController
 
     // sets the desired look-direction.
     public void lookToward(Vector3 direction) {
-        gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        lookToward(Quaternion.LookRotation(Vector3.forward, direction));
+    }
+
+    public void lookToward(Quaternion rot) {
+        gameObject.transform.rotation = rot;
     }
 
     // sets the desired look-toward position
@@ -16,5 +20,17 @@ public class MobLookController : MobController
 
     public void lookAt(GameObject obj) {
         lookAt(obj.transform.position);
+    }
+
+    public void incrementToward(Vector3 direction, int incrementAngle) {
+        incrementToward(Quaternion.LookRotation(Vector3.forward, direction), incrementAngle);
+    }
+
+    public void incrementToward(Quaternion rot, int incrementAngle) {
+        gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, rot, incrementAngle);
+    }
+
+    public void incrementToward(GameObject target, int incrementAngle) {
+        incrementToward(target.transform.position - gameObject.transform.position, incrementAngle);
     }
 }

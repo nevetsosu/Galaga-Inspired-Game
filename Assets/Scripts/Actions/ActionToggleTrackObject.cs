@@ -6,48 +6,53 @@ using System.Threading.Tasks;
 
 public class ActionToggleTrackObject : Action
 {
-    [SerializeField] private GameObject TargetObj; 
-    [SerializeField] private int incrementAngle;
 
-    void Awake() {
+    [SerializeField] private GameObject target; 
+    [SerializeField] private int incrementAngle = 1;
+    [SerializeField] public bool awaitOnTarget = false;
+
+    void Start() {
+        execute();
+    }
+
+    protected async override void execute() {
+
+        taskDone = false;
+
+        MobTrackObject MTO;
+        if (!PerformingObj.TryGetComponent<MobTrackObject>(out MTO)) {
+            MTO = PerformingObj.AddComponent<MobTrackObject>(); 
+        }
+            
+        MTO.target = target;
+        MTO.incrementAngle = incrementAngle; 
+
+        MTO.Execute(PerformingObj); 
+
+        if (awaitOnTarget && MTO.enabled) {
+            int counter = 0; 
+            while (!MTO.onTarget()) {
+                await Task.Yield();
+            }
+        } 
+
         taskDone = true;
     }
 
-    protected override void execute() {
-        if (preCheck()) {
-            MobTrackObject MTO;
-            if (!PerformingObj.TryGetComponent<MobTrackObject>(out MTO)) {
-                MTO = PerformingObj.AddComponent<MobTrackObject>(); 
-            }
-             
-            MTO.setTarget(TargetObj);
-            MTO.IncrementAngle = incrementAngle; 
-
-            if (MTO.IsTracking) {
-                Debug.Log("Pausing");
-                MTO.Pause();
-            } else {
-                Debug.Log("REsuming");
-                MTO.Resume();
-            }
-            Destroy(this); 
-        }
-    }
-
-    private bool preCheck() {
+    protected override bool preCheck() {
         bool valid = true;
-        if (PerformingObj == null)  {
-            Debug.Log("Missing PerformingObj");
-            valid = false;
+
+        if (!base.preCheck()) valid = false;
+
+        if (target == null) {
+            target = PlayerHandler.Instance.gameObject;
+
+            if (target == null) {
+                Debug.Log("Missing TargetObj");
+                valid = false;
+            }
         }
-        if (TargetObj == null) {
-            Debug.Log("Missing TargetObj");
-            valid = false;
-        }
-        if (incrementAngle == 0) {
-            Debug.Log("Missing incrementAngle");
-            valid = false;
-        }
+
         return valid; 
     }
 }       

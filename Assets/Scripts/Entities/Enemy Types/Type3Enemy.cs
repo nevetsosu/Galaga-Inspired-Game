@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class Type3Enemy : Enemy
 {
-    List<Action2> Actions;
+    List<Action> Actions;
 
     void Awake() {
         // initilize default values
@@ -14,13 +14,13 @@ public class Type3Enemy : Enemy
         collision_damage = 5;
         invulnerable = false;   
 
-        Actions = new List<Action2>(); 
+        Actions = new List<Action>(); 
 
-        foreach (Action2 a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action2>()) {
+        foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action>()) {
             Actions.Add(a); 
         }
 
-        gameObject.AddComponent<MobLook>(); 
+        // gameObject.AddComponent<MobLook>(); 
     }
 
     void Start() {
@@ -39,7 +39,7 @@ public class Type3Enemy : Enemy
     }
 
     async void executeActions() {
-        foreach (Action2 a in Actions) {
+        foreach (Action a in Actions) {
             a.Execute(gameObject); 
 
             while (!a.TaskDone) {
