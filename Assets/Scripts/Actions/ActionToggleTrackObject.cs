@@ -30,7 +30,6 @@ public class ActionToggleTrackObject : Action
         MTO.Execute(PerformingObj); 
 
         if (awaitOnTarget && MTO.enabled) {
-            int counter = 0; 
             while (!MTO.onTarget()) {
                 await Task.Yield();
             }
