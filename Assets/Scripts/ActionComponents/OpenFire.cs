@@ -7,6 +7,7 @@ public class OpenFire : Action
     [SerializeField] public int firingDelay = 1000;
     [SerializeField] private bool coolDown = false;
 
+    protected AttackController AC;
     protected override void Awake() {
         base.Awake();
 
@@ -22,7 +23,7 @@ public class OpenFire : Action
 
     void Update() { 
         if (!coolDown) {
-            PerformingObj.GetComponent<Mob>().attack();
+            PerformingObj.GetComponent<AttackController>().attack();
             coolDown = true;
             StartCoroutine("awaitCoolDown");
         }
@@ -49,8 +50,9 @@ public class OpenFire : Action
 
         bool valid = true;
 
-        if(PerformingObj.GetComponent<Mob>() == null) {
-            Debug.Log("Mob component not found");
+        if(!PerformingObj.TryGetComponent<AttackController>(out AC)) {
+            Debug.Log("Cannot use Attack without attack controller.");
+            valid = false;
         }
         return valid;
     }

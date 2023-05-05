@@ -29,7 +29,7 @@ public abstract class Action : MobUtility
         Execute();
     }
 
-    protected override bool preCheck() {
+    protected virtual bool preCheck() {
         bool valid = true;
 
         if (PerformingObj == null) { 

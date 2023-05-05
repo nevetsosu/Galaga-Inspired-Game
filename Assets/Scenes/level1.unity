@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 7383992}
   - component: {fileID: 7383994}
   - component: {fileID: 7383993}
-  - component: {fileID: 7383996}
   - component: {fileID: 7383997}
   m_Layer: 7
   m_Name: EnemyShip
@@ -284,19 +283,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.92, y: 3.38}
   m_EdgeRadius: 0
---- !u!114 &7383996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7383989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13a16e7cd2fbaf245a4c236902f4ce49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserPrefab: {fileID: 7278597676350560468, guid: 4f553eacd3c93d944bf134fbbc74ac6b, type: 3}
 --- !u!114 &7383997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,8 +1345,9 @@ GameObject:
   - component: {fileID: 298658778}
   - component: {fileID: 298658777}
   - component: {fileID: 298658776}
-  - component: {fileID: 298658775}
+  - component: {fileID: 298658781}
   - component: {fileID: 298658780}
+  - component: {fileID: 298658782}
   m_Layer: 7
   m_Name: EnemyShip (1)
   m_TagString: Enemy
@@ -1368,19 +1355,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &298658775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 298658774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507f914de2d4b784baf2b22f41c3bc4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReportTo: {fileID: 638614831}
 --- !u!50 &298658776
 Rigidbody2D:
   serializedVersion: 4
@@ -1530,7 +1504,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 298658774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3dc5c2f22c4c454a88b5259eeca5959, type: 3}
+  m_Script: {fileID: 11500000, guid: dc0d743bf815cb5468ea65d80aad7291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inUse: 0
+  health: 100
+  invulnerable: 0
+--- !u!114 &298658781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298658774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b0886b5e1e586479fe9d392d81f931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PerformingObj: {fileID: 0}
+  ActionList: {fileID: 0}
+  ActivateOnWake: 1
+--- !u!114 &298658782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298658774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3a57e9f62bda4479f5f1c7f531076d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inUse: 0
@@ -1683,7 +1687,7 @@ GameObject:
   - component: {fileID: 638614835}
   - component: {fileID: 638614834}
   - component: {fileID: 638614833}
-  - component: {fileID: 638614832}
+  - component: {fileID: 638614837}
   m_Layer: 7
   m_Name: EnemyShip
   m_TagString: Enemy
@@ -1691,19 +1695,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &638614832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 638614831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507f914de2d4b784baf2b22f41c3bc4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReportTo: {fileID: 0}
 --- !u!50 &638614833
 Rigidbody2D:
   serializedVersion: 4
@@ -1844,6 +1835,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &638614837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638614831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc0d743bf815cb5468ea65d80aad7291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inUse: 0
+  health: 100
+  invulnerable: 0
 --- !u!1 &638968065
 GameObject:
   m_ObjectHideFlags: 0
@@ -2662,7 +2668,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 298658780}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AttackController, Assembly-CSharp
         m_MethodName: attack
         m_Mode: 1

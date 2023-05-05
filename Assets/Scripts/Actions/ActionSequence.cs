@@ -15,6 +15,7 @@ public class ActionSequence : Action
 
         if (ActionList == null) ActionList = gameObject.transform.GetChild(0).gameObject;
 
+        taskDone = true;
         if (ActivateOnWake) Execute(gameObject); 
     }
 

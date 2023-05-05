@@ -9,8 +9,9 @@ public class FriendlyProjectile : Projectile
     {
         // Damage enemies then disappear
         if (col.gameObject.tag == "Enemy") {
-            Enemy enemy = col.gameObject.GetComponent<Enemy>();
-            enemy.take_damage(damage);
+            if (col.gameObject.TryGetComponent<HealthController>(out HealthController enemy)) {
+                enemy.take_damage(damage);
+            }
 
             Destroy(gameObject);
         }

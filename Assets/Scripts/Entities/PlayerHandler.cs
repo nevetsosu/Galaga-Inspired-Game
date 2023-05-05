@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerHandler : Mob
+public class PlayerHandler : Entity
 {
     public GameObject laserPrefab;
     public float speed;
     private Rigidbody2D RigidBody;
     public static PlayerHandler Instance;
+
+    protected AttackController AC;
+    protected MobMovementController MMC; 
+    protected HealthController HC;
 
     void Awake() {
         // Singleton
@@ -18,11 +22,21 @@ public class PlayerHandler : Mob
         }   
         Instance = this;
 
-        // intialize default values
-        health = 50;
-        invulnerable = false;
         speed = 10.0f; 
         RigidBody = this.GetComponent<Rigidbody2D>();
+
+        if (!gameObject.TryGetComponent<AttackController>(out AC)) {
+            AC = gameObject.AddComponent<AttackController>();
+            AC.laser = laserPrefab;
+        }
+
+        if (!gameObject.TryGetComponent<MobMovementController>(out MMC)) {
+            MMC = gameObject.AddComponent<MobMovementController>();
+        }
+
+        if (!gameObject.TryGetComponent<HealthController>(out HC)) {
+            HC = gameObject.AddComponent<HealthController>();
+        }
     }
 
     void Start()
@@ -43,47 +57,7 @@ public class PlayerHandler : Mob
 
         // Attack with space button
         if (Input.GetKeyDown(KeyCode.Space)) {
-            attack();
-        }
-
-        // Check death
-
-        if (health < 1) die();
-    }
-
-    // Update is called once per frame
-    // void FixedUpdate()
-    // {
-        
-    //     // if(Gamepad.all.Count > 0) {
-    //     //     if(Gamepad.all[0].leftStick.left.isPressed) {
-    //     //         RigidBody.transform.position += Vector3.left * Time.deltaTime * 20f;
-    //     //     }
-    //     //     if(Gamepad.all[0].leftStick.right.isPressed) {
-    //     //         RigidBody.transform.position += Vector3.right * Time.deltaTime * 20f;
-    //     //     }
-    //     //     // if(Gamepad.all[0].leftStick.up.isPressed) {
-    //     //     //     RigidBody.transform.position += Vector3.up * Time.deltaTime * 20f;
-    //     //     // }
-    //     //     // if(Gamepad.all[0].leftStick.down.isPressed) {
-    //     //     //     RigidBody.transform.position += Vector3.down * Time.deltaTime * 20f;
-    //     //     // }
-    //     // }
-    // }
-
-    public override void attack()
-    {
-        // Spawn friendly projectile above player
-        GameObject projectile = Instantiate(laserPrefab, new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 5), Quaternion.identity);
-        projectile.SetActive(true);
-        return;
-    }
-
-    public override void take_damage(int damage)
-    {
-        if (!invulnerable) {
-            Debug.Log("PLAYER: Damage taken!");
-            health -= damage;
+            AC.attack();
         }
     }
 }

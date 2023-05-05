@@ -12,9 +12,10 @@ public abstract class Projectile : Action
 
     protected MobMovementController MMC;
     protected MobLookController MLC;
+    protected DespawnHandler DH;
 
     void Update() {
-        MMC.MoveTo(PerformingObj.transform.position + Vector3.Normalize(direction) * speed);
+        MMC.MoveTo(PerformingObj.transform.position + Vector3.Normalize(direction) * speed * Time.deltaTime);
         MLC.lookToward(direction);
     }
 
@@ -39,6 +40,10 @@ public abstract class Projectile : Action
 
         if (!PerformingObj.TryGetComponent<MobLookController>(out MLC)) {
             MLC = PerformingObj.AddComponent<MobLookController>(); 
+        }
+
+        if (!PerformingObj.TryGetComponent<DespawnHandler>(out DH)) {
+            DH = PerformingObj.AddComponent<DespawnHandler>(); 
         }
 
         return valid; 
