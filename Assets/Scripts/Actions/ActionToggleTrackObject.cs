@@ -44,11 +44,11 @@ public class ActionToggleTrackObject : Action
         if (!base.preCheck()) valid = false;
 
         if (target == null) {
-            target = PlayerHandler.Instance.gameObject;
-
-            if (target == null) {
+            if (PlayerHandler.Instance.gameObject == null) {
                 Debug.Log("Missing TargetObj");
                 valid = false;
+            } else {
+                target = PlayerHandler.Instance.gameObject;
             }
         }
 

@@ -8,29 +8,18 @@ public class MobMoveDefinedPath : Action
 {
     [SerializeField] public bool Loop = false;
     [SerializeField] public bool IsTracking = false;
+    [SerializeField] public float Speed = 2f;
 
-    [SerializeField] protected SplineContainer splinePath;
-    [SerializeField] protected float speed = 1f;
+    [SerializeField] protected SplineContainer splinePath = null;
     [SerializeField] protected int pass = 0;
     [SerializeField] protected float progress = 0f;
     [SerializeField] protected float relativeProgress = 0f;
     [SerializeField] protected float increment = 0; 
 
-    protected MobLookController MLC;
-    protected MobMovementController MMC;
-
-    protected MobLook ML;
+    [SerializeField] protected MobLookController MLC;
+    [SerializeField] protected MobMovementController MMC;
 
     // Speed is in units of unity length per frame
-    public float Speed 
-    {
-        get { return speed; }
-        set 
-        { 
-            speed = value;
-            increment = speed / splinePath.CalculateLength();
-        }
-    }
 
     public float Progress
     {
@@ -43,14 +32,21 @@ public class MobMoveDefinedPath : Action
 
     public SplineContainer SplinePath {
         get { return splinePath; }
+        set 
+        {
+            splinePath = value;
+            resetProgress();
+        }
     }
 
-    protected override void Awake() { 
-        if (!PerformingObj.TryGetComponent<MobMovementController>(out MMC)) {
+    protected override void Awake() {
+        base.Awake();
+
+         if (!PerformingObj.TryGetComponent<MobMovementController>(out MMC)) {
             MMC = PerformingObj.AddComponent<MobMovementController>();
         }
 
-        if (IsTracking && !PerformingObj.TryGetComponent<MobLookController>(out MLC)) {
+        if (!PerformingObj.TryGetComponent<MobLookController>(out MLC)) {
             MLC = PerformingObj.AddComponent<MobLookController>(); 
         }
     }
@@ -65,26 +61,29 @@ public class MobMoveDefinedPath : Action
                 if (Loop) resetRelativeProgress();
                 else Pause();
             }
+
+            calculateIncrement();
+            if (increment == 0) Pause();
             
             // increment progress 
             relativeProgress += increment * Time.deltaTime;
             relativeProgress = Mathf.Clamp01(relativeProgress);
 
-            gameObject.transform.position = splinePath.EvaluatePosition(relativeProgress);
+            MMC.MoveTo(splinePath.EvaluatePosition(relativeProgress));
 
-            if (IsTracking) ML.lookToward(splinePath.EvaluateTangent(RelativeProgress));
+            if (IsTracking) MLC.lookToward(splinePath.EvaluateTangent(RelativeProgress));
 
             // debugDetails();  
     }
 
     protected override void execute() {
-        this.enabled = !this.enabled;
+        Resume();
     }
 
     protected override bool preCheck() {
         bool valid = true;
 
-        if (base.preCheck()) valid = false;
+        if (!base.preCheck()) valid = false;
 
         if (splinePath == null) {
             Debug.Log("spline Path null");
@@ -114,11 +113,15 @@ public class MobMoveDefinedPath : Action
 
     public void resetRelativeProgress() {
         relativeProgress = 0;
-        gameObject.transform.position = splinePath.EvaluatePosition(0);
+        MMC.MoveTo(Vector3.zero);
+
+        splinePath.EvaluatePosition(0);
+
+        MMC.MoveTo(splinePath.EvaluatePosition(0));
     }
 
     public void setSpline(SplineContainer spline) {
-        splinePath = spline;
+        SplinePath = spline;
         resetProgress();
     }
 
@@ -129,5 +132,9 @@ public class MobMoveDefinedPath : Action
     // FOR DEBUGGING
     public void debugDetails() {
         Debug.Log("Progress: " + Progress + " RelProgress: " + RelativeProgress);
+    }
+
+    private void calculateIncrement() {
+        increment = Speed / splinePath.CalculateLength();
     }
 }

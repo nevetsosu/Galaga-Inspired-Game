@@ -19,8 +19,6 @@ public class Type2Enemy : Enemy
         foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action>()) {
             Actions.Add(a); 
         }
-
-        gameObject.AddComponent<MobLook>(); 
     }
 
     void Start() {

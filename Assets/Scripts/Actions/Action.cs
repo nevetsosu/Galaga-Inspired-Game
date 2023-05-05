@@ -14,26 +14,30 @@ public abstract class Action : MobUtility
     protected override void Awake() {
         base.Awake();    
         if (PerformingObj == null) PerformingObj = gameObject;
-        Debug.Log("Mob Action2 Awake");
     }
 
     public void Execute() {
-        if (PerformingObj == null) { 
-            Debug.Log("null PerformingOn");
-            return;
+        if (preCheck()) {
+            execute();
+        } else {
+            Debug.Log("Precheck fail ACTION");
         }
-
-        if (!preCheck()) {
-            Debug.Log("preCheck fail");
-            return;
-        }
-
-        execute();
     }
     
     public void Execute(GameObject PerformObj) {
         this.PerformingObj = PerformObj;
         Execute();
+    }
+
+    protected override bool preCheck() {
+        bool valid = true;
+
+        if (PerformingObj == null) { 
+            Debug.Log("null PerformingOn");
+            valid = false;
+        }
+
+        return valid;
     }
 
     protected virtual void execute() {

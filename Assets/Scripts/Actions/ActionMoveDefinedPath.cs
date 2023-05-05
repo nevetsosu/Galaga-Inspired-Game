@@ -4,59 +4,52 @@ using System.Threading.Tasks;
 
 public class ActionMoveDefinedPath : Action
 {
-    [SerializeField] SplineContainer spline;
-    [SerializeField] bool isTracking = false;
-    [SerializeField] bool loop = false; 
-    [SerializeField] protected float speed = 1;
+    [SerializeField] protected SplineContainer spline;
+    [SerializeField] protected bool isTracking = false;
+    [SerializeField] protected bool loop = false; 
+    [SerializeField] protected float speed = 1f;
+    [SerializeField] protected bool awaitOnePass; 
+    protected MobMoveDefinedPath MMDP;
 
     protected override async void execute() {
-        if (preCheck()) {
-            MobMoveDefinedPath MMDP;
-            if (!PerformingObj.TryGetComponent<MobMoveDefinedPath>(out MMDP)) {
-                MMDP = PerformingObj.AddComponent<MobMoveDefinedPath>();  
-            } else {
-                if (MMDP.Loop) { 
-                    MMDP.Loop = false;
-                }
+        taskDone = false;
 
-                while (!MMDP.singlePass()) { 
-                    await Task.Yield();
-                }
-                
-            }
+        if (MMDP.enabled) { 
+            if (MMDP.Loop) MMDP.Loop = false;
 
-            MMDP.setSpline(spline);
-            MMDP.Speed = speed;
-            MMDP.IsTracking = isTracking;
-            MMDP.Loop = loop;
-
-            MMDP.Resume();
-
-            while (!MMDP.singlePass()) {
+            while (!MMDP.singlePass()) { 
                 await Task.Yield();
-            } 
-            
-            taskDone = true;
-
+            }
         }
-    }
 
-    async void test() {
-        await Task.Delay(1000); 
-    }
+        MMDP.setSpline(spline);
+        MMDP.Speed = speed;
+        MMDP.IsTracking = isTracking;
+        MMDP.Loop = loop;
 
-    private bool preCheck() {
-         bool valid = true;
+        MMDP.Execute(PerformingObj);
+
+        while (awaitOnePass && !MMDP.singlePass()) {
+            await Task.Yield();
+        } 
         
-        if (PerformingObj == null)  {
-            Debug.Log("Missing Performing Obj");
-            valid = false;
+        taskDone = true;
+    }
+
+    protected override bool preCheck() {
+        if (!PerformingObj.TryGetComponent<MobMoveDefinedPath>(out MMDP)) {
+            MMDP = PerformingObj.AddComponent<MobMoveDefinedPath>();  
         }
+
+        bool valid = true;
+
+        if(!base.preCheck()) valid = false; 
 
         if (spline == null) {
             Debug.Log("Missing Spline");
             valid = false;
         }
+
         return valid;
     }
 }       

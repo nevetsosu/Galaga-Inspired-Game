@@ -43,4 +43,15 @@ public class OpenFire : Action
         this.enabled = true;
 
     }
+
+    protected override bool preCheck() {
+        base.preCheck();
+
+        bool valid = true;
+
+        if(PerformingObj.GetComponent<Mob>() == null) {
+            Debug.Log("Mob component not found");
+        }
+        return valid;
+    }
 }
