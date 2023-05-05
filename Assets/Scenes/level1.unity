@@ -311,6 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PerformingObj: {fileID: 0}
   ActionList: {fileID: 0}
+  ActivateOnWake: 0
 --- !u!1 &127775656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,6 +1360,7 @@ GameObject:
   - component: {fileID: 298658777}
   - component: {fileID: 298658776}
   - component: {fileID: 298658775}
+  - component: {fileID: 298658780}
   m_Layer: 7
   m_Name: EnemyShip (1)
   m_TagString: Enemy
@@ -1519,6 +1521,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &298658780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298658774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dc5c2f22c4c454a88b5259eeca5959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inUse: 0
+  laser: {fileID: 7278597676350560468, guid: 4f553eacd3c93d944bf134fbbc74ac6b, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2580,7 +2596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1129680041
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2646,9 +2662,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Action, Assembly-CSharp
-        m_MethodName: Execute
+      - m_Target: {fileID: 298658780}
+        m_TargetAssemblyTypeName: AttackController, Assembly-CSharp
+        m_MethodName: attack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

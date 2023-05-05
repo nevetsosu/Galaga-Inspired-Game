@@ -5,15 +5,6 @@ using UnityEngine;
 public class FriendlyProjectile : Projectile
 {
 
-    void Awake() {
-        // Set default values of Friendly Projectile
-        damage = 5;
-        velocity = 10;
-
-        Rigidbody2D RigidBody = gameObject.GetComponent<Rigidbody2D>();
-        RigidBody.velocity = new Vector2(0, velocity); 
-    }
-
     public override void OnTriggerEnter2D(Collider2D col)
     {
         // Damage enemies then disappear

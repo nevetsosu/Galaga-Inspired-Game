@@ -8,27 +8,30 @@ public class ActionSequence : Action
 {
     List<Action> Actions = new List<Action>();
     [SerializeField] GameObject ActionList;
+    [SerializeField] protected bool ActivateOnWake = false;
 
     protected override void Awake() {
         base.Awake();
 
         if (ActionList == null) ActionList = gameObject.transform.GetChild(0).gameObject;
 
-        this.enabled = true;
-    }
-
-    void Start() {
-        Execute();
+        if (ActivateOnWake) Execute(gameObject); 
     }
 
     protected override async void execute() {
+        while (!taskDone) {
+            await Task.Yield();
+        }
+
+        taskDone = false;
         foreach (Action a in Actions) {
             a.Execute(gameObject); 
 
             while (!a.TaskDone) {
                 await Task.Yield(); 
             }
-        }   
+        }  
+        taskDone = true;
     }
 
     protected override bool preCheck()

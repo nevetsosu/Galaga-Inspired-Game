@@ -20,7 +20,7 @@ public class Enemy : Mob
         dir *= 10;
 
         // Scale speed
-        velocity *= laserPrefab.GetComponent<Projectile>().Velocity();
+        velocity *= laserPrefab.GetComponent<Projectile>().speed;
 
         // Create initial position vector for new laser
 
