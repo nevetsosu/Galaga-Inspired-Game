@@ -29,7 +29,7 @@ public class Type1Enemy : Enemy
 
     void Update() {
         // check aliveness
-        if (health < 1) die(); 
+            
     }
     
     void OnTriggerEnter2D(Collider2D col) {

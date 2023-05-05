@@ -4,39 +4,24 @@ using UnityEngine;
 using UnityEngine.Splines;
 using System.Threading.Tasks;
 
-public class Type2Enemy : Enemy
+public class Type2Enemy : Action
 {
-    List<Action> Actions;
+    List<Action> Actions = new List<Action>();
+    [SerializeField] GameObject ActionList;
 
-    void Awake() {
-        // initilize default values
-        health = 25;
-        collision_damage = 5;
-        invulnerable = false;   
+    protected override void Awake() {
+        base.Awake();
 
-        Actions = new List<Action>(); 
+        if (ActionList == null) ActionList = gameObject.transform.GetChild(0).gameObject;
 
-        foreach (Action a in transform.GetChild(0).gameObject.GetComponentsInChildren<Action>()) {
-            Actions.Add(a); 
-        }
+        this.enabled = true;
     }
 
     void Start() {
-        executeActions();
+        Execute();
     }
 
-    void OnTriggerEnter2D(Collider2D col) {
-
-        // does collision damage
-        if (col.gameObject.tag == "Player") {
-            PlayerHandler.Instance.take_damage(collision_damage);
-        }
-    }
-    public override void die() {
-        Destroy(gameObject.transform.parent.gameObject);
-    }
-
-    async void executeActions() {
+    protected override async void execute() {
         foreach (Action a in Actions) {
             a.Execute(gameObject); 
 
@@ -45,4 +30,26 @@ public class Type2Enemy : Enemy
             }
         }   
     }
+
+    protected override bool preCheck()
+    {
+        bool valid = true; 
+
+        if (ActionList == null) {
+            Debug.Log("invalid list");
+            valid = false;
+        }
+
+        foreach (Action a in ActionList.GetComponentsInChildren<Action>()) {
+            if (a == this) {
+                Debug.Log("Found myself, skipping");
+                continue;
+            }
+
+            Actions.Add(a); 
+        }
+
+        return valid;
+    }
 }
+
