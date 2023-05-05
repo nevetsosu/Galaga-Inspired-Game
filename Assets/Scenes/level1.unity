@@ -135,7 +135,8 @@ GameObject:
   - component: {fileID: 7383992}
   - component: {fileID: 7383994}
   - component: {fileID: 7383993}
-  - component: {fileID: 7383995}
+  - component: {fileID: 7383996}
+  - component: {fileID: 7383997}
   m_Layer: 7
   m_Name: EnemyShip
   m_TagString: Enemy
@@ -283,7 +284,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.92, y: 3.38}
   m_EdgeRadius: 0
---- !u!114 &7383995
+--- !u!114 &7383996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,10 +293,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7383989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5ce1cada18abe74e9e546b91cae8616, type: 3}
+  m_Script: {fileID: 11500000, guid: 13a16e7cd2fbaf245a4c236902f4ce49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 7278597676350560468, guid: 4f553eacd3c93d944bf134fbbc74ac6b, type: 3}
+--- !u!114 &7383997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7383989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b0886b5e1e586479fe9d392d81f931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PerformingObj: {fileID: 0}
+  ActionList: {fileID: 0}
 --- !u!1 &127775656
 GameObject:
   m_ObjectHideFlags: 0

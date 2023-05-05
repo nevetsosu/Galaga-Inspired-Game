@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using System.Threading.Tasks;
 
-public class Type2Enemy : Action
+public class ActionSequence : Action
 {
     List<Action> Actions = new List<Action>();
     [SerializeField] GameObject ActionList;
