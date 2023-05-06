@@ -57,7 +57,7 @@ public class PlayerHandler : Entity
 
         // Attack with space button
         if (Input.GetKeyDown(KeyCode.Space)) {
-            AC.attack();
+            AC.shootProjectile();
         }
     }
 }

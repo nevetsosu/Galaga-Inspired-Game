@@ -20,8 +20,8 @@ public abstract class Projectile : Action
     }
 
     public virtual void OnTriggerEnter2D(Collider2D col) {
-        if (col.TryGetComponent<Mob>(out Mob M)) {
-            M.take_damage(damage); 
+        if (col.TryGetComponent<HealthController>(out HealthController HC)) {
+            HC.take_damage(damage); 
         }
 
         if (Piercing-- <= 0) {

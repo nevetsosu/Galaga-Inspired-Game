@@ -9,6 +9,17 @@ public class ActionSequence : Action
     List<Action> Actions = new List<Action>();
     [SerializeField] GameObject ActionList;
     [SerializeField] protected bool ActivateOnWake = false;
+    [SerializeField] protected int totalActions = 0;
+    [SerializeField] protected int currentAction = 0;
+
+    public int TotalActions
+    {
+        get { return totalActions; }
+    }
+    public int CurrentAction 
+    {
+        get { return currentAction; }
+    }
 
     protected override void Awake() {
         base.Awake();
@@ -25,13 +36,15 @@ public class ActionSequence : Action
         }
 
         taskDone = false;
-        foreach (Action a in Actions) {
-            a.Execute(gameObject); 
 
-            while (!a.TaskDone) {
+        for (currentAction = 0; currentAction < totalActions; currentAction++) {
+            Actions[currentAction].Execute(gameObject); 
+
+            while (!Actions[currentAction].TaskDone) {
                 await Task.Yield(); 
             }
-        }  
+        }
+
         taskDone = true;
     }
 
@@ -52,6 +65,8 @@ public class ActionSequence : Action
 
             Actions.Add(a); 
         }
+
+        totalActions = Actions.Count;
 
         return valid;
     }

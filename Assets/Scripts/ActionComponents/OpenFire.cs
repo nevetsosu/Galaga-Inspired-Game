@@ -23,7 +23,7 @@ public class OpenFire : Action
 
     void Update() { 
         if (!coolDown) {
-            PerformingObj.GetComponent<AttackController>().attack();
+            PerformingObj.GetComponent<AttackController>().shootProjectile();
             coolDown = true;
             StartCoroutine("awaitCoolDown");
         }

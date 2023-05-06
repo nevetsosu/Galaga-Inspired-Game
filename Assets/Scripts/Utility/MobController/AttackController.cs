@@ -6,7 +6,7 @@ public class AttackController : MobController {
     protected int damage = 5;
     protected int speed = 5;
 
-    public void attack() {
+    public void shootProjectile() {
         gameObject.transform.GetPositionAndRotation(out Vector3 current_pos, out Quaternion current_rot);
         Vector3 direction = Vector3.Normalize(current_rot * Vector3.up);
         Vector3 laser_pos = current_pos + direction * 5;

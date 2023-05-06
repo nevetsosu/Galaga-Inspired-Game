@@ -9,10 +9,7 @@ public class DespawnHandler : MonoBehaviour
         if (ReportTo == null) {
             ReportTo = gameObject;
             ReportToDH = this;
-            return;
-        }
-
-        if (!ReportTo.TryGetComponent<DespawnHandler>(out ReportToDH)) {
+        } else if (!ReportTo.TryGetComponent<DespawnHandler>(out ReportToDH)) {
             ReportToDH = ReportTo.AddComponent<DespawnHandler>(); 
         }
     }
