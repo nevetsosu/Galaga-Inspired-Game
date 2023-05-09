@@ -34,7 +34,7 @@ public class HealthController : MobController
             DH.reportReceive(); 
             // this.enabled = false;
             AudioManager.Instance.Play(deathSound);
-            if (endGame) LevelHandler.Instance.endGame();
+            if (endGame) LevelHandler.Instance.gameOver = true; 
         }
     }
     protected override void Awake() {

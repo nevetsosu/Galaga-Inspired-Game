@@ -22,6 +22,7 @@ public class LevelHandler : MonoBehaviour
     }
 
     async void Start() {
+        gameOver = false; 
         // before game start
 
         // game start
@@ -34,34 +35,34 @@ public class LevelHandler : MonoBehaviour
             await Task.Yield(); 
         }
 
-        // pause time
-        if (!gameOver) {
-            Debug.Log("Level complete!");
-            endGame();
-        }
+        gameOver = true; 
         
-
         // game end
     }
     
     void Update()
     {
-        // Check pause if there is a pause menu
         if (pauseMenu.Instance != null && !gameOver) {
             pauseMenu.Instance.pauseMenuCheck();
         }
+
+        if (gameOver) { 
+            endGame();
+            this.enabled = false;
+        } 
+        // Check pause if there is a pause menu
+        
     }
 
     void FixedUpdate() { 
         timeElapsed += Time.fixedDeltaTime;
         timeText.text = timeElapsed.ToString("0.00");
-        if (GameManager.Instance) GameManager.Instance.FinalTime.text = "Elapsed Time: " + timeElapsed.ToString("0.00") + "s";
+        if (GameManager.Instance) GameManager.Instance.FinalTime.text = "Elapsed Time: " + timeElapsed.ToString("0.00");
     }
 
     public void endGame() {
-        gameOver = true;
+        StopAllCoroutines(); 
         GameManager.Instance.Pause();
         GameManager.Instance.showGameOverMenu();
-        StopAllCoroutines(); 
     }
 }
