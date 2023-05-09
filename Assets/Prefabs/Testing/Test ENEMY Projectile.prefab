@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1688023693081145571}
   m_Layer: 0
   m_Name: Test ENEMY Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PerformingObj: {fileID: 0}
-  Piercing: 0
+  taskDone: 0
+  activateOnWake: 0
   damage: 5
-  speed: 10
+  speed: 25
+  Piercing: 1
   direction: {x: 0, y: 1, z: 0}
+  Shooter: {fileID: 0}

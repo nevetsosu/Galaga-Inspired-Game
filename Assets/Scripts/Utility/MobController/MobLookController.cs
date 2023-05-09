@@ -18,8 +18,8 @@ public class MobLookController : MobController
         lookToward(position - current_pos);
     }
 
-    public void lookAt(GameObject obj) {
-        lookAt(obj.transform.position);
+    public void lookAt(GameObject target) {
+        if (target) lookAt(target.transform.position);
     }
 
     public void incrementToward(Vector3 direction, int incrementAngle) {
@@ -31,6 +31,6 @@ public class MobLookController : MobController
     }
 
     public void incrementToward(GameObject target, int incrementAngle) {
-        incrementToward(target.transform.position - gameObject.transform.position, incrementAngle);
+        if (target) incrementToward(target.transform.position - gameObject.transform.position, incrementAngle);
     }
 }

@@ -8,7 +8,8 @@ public class ActionMoveDefinedPath : Action
     [SerializeField] protected bool isTracking = false;
     [SerializeField] protected bool loop = false; 
     [SerializeField] protected float speed = 1f;
-    [SerializeField] protected bool awaitOnePass; 
+    [SerializeField] protected bool awaitOnePass;
+    [SerializeField] protected float awaitRelativeProgress = 1; 
     protected MobMoveDefinedPath MMDP;
 
     protected override async void execute() {
@@ -26,6 +27,7 @@ public class ActionMoveDefinedPath : Action
         MMDP.Speed = speed;
         MMDP.IsTracking = isTracking;
         MMDP.Loop = loop;
+        MMDP.awaitRelativeProgress = awaitRelativeProgress;
 
         MMDP.Execute(PerformingObj);
 

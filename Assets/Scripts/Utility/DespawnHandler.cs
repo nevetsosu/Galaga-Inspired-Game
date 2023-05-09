@@ -4,6 +4,7 @@ public class DespawnHandler : MonoBehaviour
 {
     [SerializeField] private GameObject ReportTo = null;
     private DespawnHandler ReportToDH;
+    [SerializeField] private int reportCount = 1;
 
     void Awake() {
         if (ReportTo == null) {
@@ -23,7 +24,10 @@ public class DespawnHandler : MonoBehaviour
     }
 
     public virtual void reportReceive() {
-        if (ReportTo != gameObject) reportSend();
-        Despawn(); 
+        if (ReportTo != gameObject) {
+            reportSend();
+            Debug.Log("SENDING REPORT");
+        }
+        if (--reportCount <= 0) Despawn(); 
     }
 }

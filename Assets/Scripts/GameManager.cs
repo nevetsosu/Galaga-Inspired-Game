@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,6 +11,8 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] protected GameObject GameOverUI;
+    [SerializeField] public TextMeshProUGUI FinalTime; 
     private bool paused = false;
     public static GameManager Instance;
 
@@ -23,6 +26,11 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
     } 
+
+    private void Start() {
+        AudioManager.Instance.Play("BGM");
+        Resume(); 
+    }
 
     public void Resume() {
         paused = false;
@@ -55,4 +63,19 @@ public class GameManager : MonoBehaviour
                 Application.Quit();
         #endif
     }
+
+    public void showGameOverMenu() {
+        GameOverUI.SetActive(true);
+    }
+
+    public void hideGameOverMenu() {
+        GameOverUI.SetActive(false); 
+    }
+
+    public void mainMenuButton() {
+        hideGameOverMenu();
+        GameManager.Instance.Resume();
+        GameManager.Instance.exitLevel(); 
+    }
+
 }

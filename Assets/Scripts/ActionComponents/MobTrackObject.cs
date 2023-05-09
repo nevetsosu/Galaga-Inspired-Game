@@ -7,7 +7,6 @@ public class MobTrackObject : Action
 {
     [SerializeField] public int incrementAngle = 1;
     [SerializeField] public GameObject target;
-    private static MobTrackObject Instance;
     private MobLookController MLC;
 
     public bool found = false;
@@ -16,20 +15,13 @@ public class MobTrackObject : Action
     protected override void Awake() {
         base.Awake();
 
-        if (Instance != null) {
-            Destroy(this);
-            return;
-        }
-
-        Instance = this;
-
         if (!PerformingObj.TryGetComponent<MobLookController>(out MLC)) {
             MLC = PerformingObj.AddComponent<MobLookController>();
         }
     }
 
     void Update() {
-        if (target != null && !onTarget()) {
+        if (target && !onTarget()) {
             found = false;
             MLC.incrementToward(target, incrementAngle);
             Debug.Log("Turning");
@@ -37,9 +29,8 @@ public class MobTrackObject : Action
     }
 
     protected override void execute() {
+        Debug.Log("TOGGLE");
         this.enabled = !this.enabled;
-
-        MLC.inUse = this.enabled;
     }
 
     public bool onTarget() {

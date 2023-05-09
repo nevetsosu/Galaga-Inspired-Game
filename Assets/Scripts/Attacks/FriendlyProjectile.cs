@@ -13,7 +13,9 @@ public class FriendlyProjectile : Projectile
                 enemy.take_damage(damage);
             }
 
-            Destroy(gameObject);
+            if (!Piercing) {
+                Destroy(gameObject); 
+            }
         }
     }
 }

@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public class AttackController : MobController {
     [SerializeField] public GameObject laser;
-    protected int damage = 5;
-    protected int speed = 5;
 
     public void shootProjectile() {
         gameObject.transform.GetPositionAndRotation(out Vector3 current_pos, out Quaternion current_rot);
@@ -19,13 +17,12 @@ public class AttackController : MobController {
         if (!new_laser.TryGetComponent<Projectile>(out Projectile P)) {
             new_laser.AddComponent<Projectile>();
         } 
-
-        P.speed = speed;
-        P.damage = damage;
+        P.Shooter = gameObject;
         P.direction = direction;
 
         // create new object and initialize
         P.Execute(); 
+        AudioManager.Instance.Play("shoot");
 
         return;
     }

@@ -12,7 +12,9 @@ public class EnemyProjectile : Projectile
                 HC.take_damage(damage); 
             }
         }
-        Destroy(gameObject);
+        if (!Piercing) {
+            Destroy(gameObject); 
+        }
         return;
     }
 }

@@ -11,12 +11,8 @@ public class ActionToggleTrackObject : Action
     [SerializeField] private int incrementAngle = 1;
     [SerializeField] public bool awaitOnTarget = false;
 
-    void Start() {
-        execute();
-    }
-
     protected async override void execute() {
-
+        Debug.Log("Executing Action");
         taskDone = false;
 
         MobTrackObject MTO;
@@ -43,13 +39,8 @@ public class ActionToggleTrackObject : Action
 
         if (!base.preCheck()) valid = false;
 
-        if (target == null) {
-            if (PlayerHandler.Instance.gameObject == null) {
-                Debug.Log("Missing TargetObj");
-                valid = false;
-            } else {
-                target = PlayerHandler.Instance.gameObject;
-            }
+        if (!target && PlayerHandler.Instance) {
+            target = PlayerHandler.Instance.gameObject;
         }
 
         return valid; 

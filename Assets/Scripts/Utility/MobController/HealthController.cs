@@ -5,9 +5,16 @@ using UnityEngine;
 // Base Enemy Class
 public class HealthController : MobController
 {  
-    [SerializeField] protected int health = 100; 
+    [SerializeField] protected string deathSound = "explosionDeath";
+    [SerializeField] protected int health = 50; 
     [SerializeField] public bool invulnerable = false;
+    [SerializeField] private bool endGame = false;
     protected DespawnHandler DH;
+
+    public int Health
+    {
+        get { return health; }
+    }
 
     // By default inflicts specified damage if target is NOT invulnerabe;
     public void take_damage(int damage) {
@@ -23,7 +30,12 @@ public class HealthController : MobController
         Debug.Log("health ADDed, current health " + health);
     }
     void Update() {
-        if (health < 1) DH.reportReceive(); 
+        if (health < 1) {
+            DH.reportReceive(); 
+            // this.enabled = false;
+            AudioManager.Instance.Play(deathSound);
+            if (endGame) LevelHandler.Instance.endGame();
+        }
     }
     protected override void Awake() {
         if (!gameObject.TryGetComponent<DespawnHandler>(out DH)) {

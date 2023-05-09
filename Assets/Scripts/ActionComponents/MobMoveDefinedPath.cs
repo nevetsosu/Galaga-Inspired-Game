@@ -15,6 +15,7 @@ public class MobMoveDefinedPath : Action
     [SerializeField] protected float progress = 0f;
     [SerializeField] protected float relativeProgress = 0f;
     [SerializeField] protected float increment = 0; 
+    [SerializeField] public float awaitRelativeProgress = 1; 
 
     [SerializeField] protected MobLookController MLC;
     [SerializeField] protected MobMovementController MMC;
@@ -55,7 +56,7 @@ public class MobMoveDefinedPath : Action
             // update pos
             progress = pass + relativeProgress;
 
-            if (singlePass()) {
+            if (relativeProgress == 1) {
                 pass++;
 
                 if (Loop) resetRelativeProgress();
@@ -126,7 +127,7 @@ public class MobMoveDefinedPath : Action
     }
 
     public bool singlePass() {
-        return relativeProgress == 1;
+        return relativeProgress >= awaitRelativeProgress;
     }
 
     // FOR DEBUGGING

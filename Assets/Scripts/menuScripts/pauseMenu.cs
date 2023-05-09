@@ -7,6 +7,7 @@ public class pauseMenu : MonoBehaviour
     public static pauseMenu Instance;
 
     public GameObject pauseMenuUI;
+    
     private void Awake() {
         if (Instance != null) {
             Destroy(gameObject);
@@ -36,7 +37,7 @@ public class pauseMenu : MonoBehaviour
     }
 
     public void pauseMenuCheck() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetButtonDown("Cancel")) {
             if(GameManager.Instance.isPaused()) {
                 resumeButton();
             } else {

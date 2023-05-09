@@ -4,7 +4,13 @@ public abstract class Action : MobUtility
 {
     [SerializeField] protected GameObject PerformingObj;
 
-    protected bool taskDone = false;
+    [SerializeField] protected bool taskDone = false;
+    [SerializeField] protected bool activateOnWake = false;
+
+    [SerializeField] public bool ActivateOnWake 
+    {
+        get { return activateOnWake; }
+    }
 
     public bool TaskDone 
     {
@@ -12,8 +18,9 @@ public abstract class Action : MobUtility
     }
 
     protected override void Awake() {
-        base.Awake();    
-        if (PerformingObj == null) PerformingObj = gameObject;
+        base.Awake();
+        PerformingObj = gameObject;
+        if (ActivateOnWake) Execute();; 
     }
 
     public void Execute() {
@@ -32,7 +39,7 @@ public abstract class Action : MobUtility
     protected virtual bool preCheck() {
         bool valid = true;
 
-        if (PerformingObj == null) { 
+        if (!PerformingObj) { 
             Debug.Log("null PerformingOn");
             valid = false;
         }

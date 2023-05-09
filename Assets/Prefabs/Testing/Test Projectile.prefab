@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 926843841167727418}
   m_Layer: 0
   m_Name: Test Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,3 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87e66f0e1029eb4ea7b34fa195aeabb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PerformingObj: {fileID: 0}
+  taskDone: 0
+  activateOnWake: 0
+  damage: 5
+  speed: 50
+  Piercing: 0
+  direction: {x: 0, y: 1, z: 0}
+  Shooter: {fileID: 0}
