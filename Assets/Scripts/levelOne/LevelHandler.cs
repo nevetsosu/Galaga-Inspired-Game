@@ -47,8 +47,8 @@ public class LevelHandler : MonoBehaviour
         }
 
         if (gameOver) { 
-            endGame();
             this.enabled = false;
+            endGame();
         } 
         // Check pause if there is a pause menu
         

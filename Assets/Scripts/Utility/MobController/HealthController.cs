@@ -9,6 +9,7 @@ public class HealthController : MobController
     [SerializeField] protected int health = 50; 
     [SerializeField] public bool invulnerable = false;
     [SerializeField] private bool endGame = false;
+    [SerializeField] protected string damage_noise = "minecraftHit";
     protected DespawnHandler DH;
 
     public int Health
@@ -22,6 +23,8 @@ public class HealthController : MobController
             health -= Mathf.Abs(damage);
             Debug.Log("Damage Taken, current health " + health);
         }
+
+        AudioManager.Instance.Play(damage_noise);
         return;
     }
 

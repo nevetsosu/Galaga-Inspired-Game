@@ -222,6 +222,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &2105997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +858,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &117408376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,106 +1003,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &173589102
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 173589104}
-  - component: {fileID: 173589103}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &173589103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173589102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de6ca91748280c64a9f3a4e4df5e9458, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mixerGroup: {fileID: 0}
-  sounds:
-  - name: shoot
-    clip: {fileID: 8300000, guid: 138a4657d5dd8ea4c84db82529e9affc, type: 3}
-    volume: 0.254
-    volumeVariance: 0
-    pitch: 1
-    pitchVariance: 0.508
-    loop: 0
-    mixerGroup: {fileID: 0}
-    source: {fileID: 0}
-  - name: playerDeath
-    clip: {fileID: 8300000, guid: 4d43edd8a25ed144b9bd8d044795f9f5, type: 3}
-    volume: 0.254
-    volumeVariance: 0
-    pitch: 1
-    pitchVariance: 0
-    loop: 0
-    mixerGroup: {fileID: 0}
-    source: {fileID: 0}
-  - name: explosionDeath
-    clip: {fileID: 8300000, guid: c3b6a0c99d33f0b4b99231cf238880ab, type: 3}
-    volume: 0.254
-    volumeVariance: 0
-    pitch: 1
-    pitchVariance: 0.039
-    loop: 0
-    mixerGroup: {fileID: 0}
-    source: {fileID: 0}
-  - name: BGM
-    clip: {fileID: 8300000, guid: 869b09696920c604080844f3b1674245, type: 3}
-    volume: 0.023
-    volumeVariance: 0
-    pitch: 1
-    pitchVariance: 0
-    loop: 1
-    mixerGroup: {fileID: 0}
-    source: {fileID: 0}
-  - name: menuSelect
-    clip: {fileID: 8300000, guid: a1b45cba6b797da4fb373ab30d854fc4, type: 3}
-    volume: 0.4
-    volumeVariance: 0
-    pitch: 1
-    pitchVariance: 0
-    loop: 0
-    mixerGroup: {fileID: 0}
-    source: {fileID: 0}
-  - name: menuHover
-    clip: {fileID: 8300000, guid: f4d2d0bae4f82c14c9b634cd19a85849, type: 3}
-    volume: 0.4
-    volumeVariance: 0
-    pitch: 1
-    pitchVariance: 0
-    loop: 0
-    mixerGroup: {fileID: 0}
-    source: {fileID: 0}
---- !u!4 &173589104
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173589102}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &178069670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,6 +1786,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &387646681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2949,6 +2852,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &600211567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3479,6 +3383,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &647969822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4053,6 +3958,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &687022607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4384,6 +4290,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &744432337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6957,6 +6864,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &1325951165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9049,6 +8957,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &1813345536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10954,6 +10863,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!1 &721676699162497414
 GameObject:
   m_ObjectHideFlags: 0
@@ -11191,6 +11101,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &1203964418522451037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11347,6 +11258,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!50 &1544446156738687069
 Rigidbody2D:
   serializedVersion: 4
@@ -12572,6 +12484,7 @@ MonoBehaviour:
   health: 50
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &3052100592164781439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13214,6 +13127,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &4044322788591595670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13401,6 +13315,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &4437163485449013348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13496,6 +13411,7 @@ MonoBehaviour:
   health: 50
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!4 &4661126181115449492
 Transform:
   m_ObjectHideFlags: 0
@@ -15151,6 +15067,7 @@ MonoBehaviour:
   health: 25
   invulnerable: 0
   endGame: 0
+  damage_noise: minecraftHit
 --- !u!114 &6715077456291400367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16030,6 +15947,7 @@ MonoBehaviour:
   health: 100
   invulnerable: 0
   endGame: 1
+  damage_noise: minecraftOof
 --- !u!114 &7676474918530878195
 MonoBehaviour:
   m_ObjectHideFlags: 0
