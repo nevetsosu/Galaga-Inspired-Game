@@ -12,10 +12,10 @@ public class LevelHandler : MonoBehaviour
 
     void Awake() {
         // Singleton
-        if (Instance != null) {
-            Destroy(gameObject);
-            return;
-        }
+        // if (Instance != null) {
+        //     Destroy(gameObject);
+        //     return;
+        // }
         Instance = this;
 
         Time.timeScale = 1f;
