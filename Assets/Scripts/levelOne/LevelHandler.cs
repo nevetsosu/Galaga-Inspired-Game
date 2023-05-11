@@ -1,14 +1,25 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using TMPro;
 
 public class LevelHandler : MonoBehaviour
 {
+    public static LevelHandler Instance;
+    public bool GameOver = false;
+    [SerializeField] protected bool levelWin = false; 
+    public static float PLAYFIELDWIDTH = 36;
+
+    public LevelData data = new LevelData();
     [SerializeField] protected float timeElapsed = 0; 
     [SerializeField] protected TextMeshProUGUI timeText;
-    public static LevelHandler Instance;
-    public bool gameOver = false;
-    public static float PLAYFIELDWIDTH = 36;
+    [SerializeField] protected TextMeshProUGUI scoresText;
+    SortedList< float, string > scoreboard = new SortedList< float, string >(); 
+
+    public float TimeElapsed
+    {
+        get { return timeElapsed; }
+    }
 
     void Awake() {
         // Singleton
@@ -19,10 +30,29 @@ public class LevelHandler : MonoBehaviour
         Instance = this;
 
         Time.timeScale = 1f;
+
+        data = GameManager.Instance.load();
+
+        if (data.names.Count != data.times.Count ) {
+            Debug.LogWarning("Times and names aren't lining up");
+        }
+
+        for (int i = 0; i < data.names.Count; i++) {
+            Debug.Log("Adding name");
+            // scoresText.text += data.names[i] + " " + data.times[i].ToString() + "\n";
+
+            scoreboard.Add(data.times[i], data.names[i]);
+        }
+
+        int counter = 0; 
+        foreach (var i in scoreboard) {
+            if (counter++ >= 10) break;
+            scoresText.text += i.Value + " " + i.Key.ToString("0.00") + "\n";
+        }        
     }
 
     async void Start() {
-        gameOver = false; 
+        GameOver = false; 
         // before game start
 
         // game start
@@ -35,18 +65,19 @@ public class LevelHandler : MonoBehaviour
             await Task.Yield(); 
         }
 
-        gameOver = true; 
+        GameOver = true; 
+        levelWin = true;
         
         // game end
     }
     
     void Update()
     {
-        if (pauseMenu.Instance != null && !gameOver) {
+        if (pauseMenu.Instance != null && !GameOver) {
             pauseMenu.Instance.pauseMenuCheck();
         }
 
-        if (gameOver) { 
+        if (GameOver) { 
             this.enabled = false;
             endGame();
         } 
@@ -57,12 +88,18 @@ public class LevelHandler : MonoBehaviour
     void FixedUpdate() { 
         timeElapsed += Time.fixedDeltaTime;
         timeText.text = timeElapsed.ToString("0.00");
-        if (GameManager.Instance) GameManager.Instance.FinalTime.text = "Elapsed Time: " + timeElapsed.ToString("0.00");
+        if (GameManager.Instance) {
+            GameManager.Instance.FinalTimeFail.text = "Elapsed Time: " + timeElapsed.ToString("0.00");
+            GameManager.Instance.FinalTimeSuccess.text = "Elapsed Time: " + timeElapsed.ToString("0.00");
+        }
     }
 
     public void endGame() {
         StopAllCoroutines(); 
         GameManager.Instance.Pause();
-        GameManager.Instance.showGameOverMenu();
+        if (levelWin) GameManager.Instance.showWinMenu();
+        else GameManager.Instance.showGameOverMenu();
     }
+
+    
 }

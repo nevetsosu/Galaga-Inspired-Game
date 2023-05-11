@@ -11,10 +11,19 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] protected int currentLevel = 0;
     [SerializeField] protected GameObject GameOverUI;
-    [SerializeField] public TextMeshProUGUI FinalTime; 
+    [SerializeField] protected GameObject WinUI; 
+    [SerializeField] public TextMeshProUGUI FinalTimeFail; 
+    [SerializeField] public TextMeshProUGUI FinalTimeSuccess;
+    [SerializeField] public TextMeshProUGUI nameInput;
     private bool paused = false;
     public static GameManager Instance;
+
+    public int CurrentLevel
+    {
+        get {return currentLevel; }
+    }
 
     private void Awake() {
         if (Instance != null) {
@@ -24,7 +33,6 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
     } 
 
     private void Start() {
@@ -48,6 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(int i) {
         SceneManager.LoadScene(i);
+        currentLevel = i; 
     }
 
     public void exitLevel() {
@@ -72,10 +81,86 @@ public class GameManager : MonoBehaviour
         GameOverUI.SetActive(false); 
     }
 
-    public void mainMenuButton() {
+    public void showWinMenu() {
+        WinUI.SetActive(true);
+    }
+
+    public void hideWinMenu() {
+        WinUI.SetActive(false);
+    }
+
+    public void gameWinSaveAndQuitButton() {
+        hideWinMenu();
+        mainMenuReset();
+    }
+
+    public void gameOverMainMenuButton() {
         hideGameOverMenu();
+        mainMenuReset();
+    }
+
+    private void mainMenuReset() {
         GameManager.Instance.Resume();
         GameManager.Instance.exitLevel(); 
     }
 
+    public void save(LevelData saveData) {
+        for (int i = 0; i < saveData.names.Count; i++) {
+            Debug.Log("BEFORE SAVE" + saveData.names[i] + " " + saveData.times[i]);
+        }
+        
+        string fileName = "level" + currentLevel.ToString();
+        string strData = JsonUtility.ToJson(saveData);
+        Debug.Log("SAVING SAVE" + strData);
+        string path = Application.persistentDataPath + "/" + fileName + ".json";
+        Debug.Log("Saving at path " + path);
+
+        System.IO.File.WriteAllText(path, strData);
+        Debug.Log("Save completed.");
+    }
+
+    public LevelData load() {
+        Debug.Log("attempting data load");
+
+        string fileName = "level" + currentLevel.ToString();
+        string path = Application.persistentDataPath + "/" + fileName + ".json";
+
+        if (System.IO.File.Exists(path)) {
+            Debug.Log("data found at " + path);
+
+            string strData = System.IO.File.ReadAllText(path);
+            Debug.Log("LOADING (LOAD)" + strData);
+            
+            return JsonUtility.FromJson<LevelData>(strData);
+        } else { 
+            Debug.Log("Old file not found, returning new data");
+            return new LevelData(); 
+        }
+    }
+
+    public void savePlayer() {
+        if (GameManager.Instance.nameInput.text.Trim().Length != 0) {
+            LevelHandler.Instance.data.times.Add(LevelHandler.Instance.TimeElapsed);
+            LevelHandler.Instance.data.names.Add(GameManager.Instance.nameInput.text);
+
+            save(LevelHandler.Instance.data);
+        }
+    }
+
+    public void clearAllData() {
+        for (int i = 0; i < 6; i++) {
+            string fileName = "level" + i;
+            string path = Application.persistentDataPath + "/" + fileName + ".json";
+
+            System.IO.File.WriteAllText(path, JsonUtility.ToJson(new LevelData()));
+        }
+    }
+
 }
+
+[System.Serializable]
+public class LevelData {
+    public List<float> times = new List<float>(); 
+    public List<string> names = new List<string>();
+}
+

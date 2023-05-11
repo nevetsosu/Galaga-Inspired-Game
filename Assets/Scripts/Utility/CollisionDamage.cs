@@ -7,7 +7,6 @@ public class CollisionDamage : MonoBehaviour
     
    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("trigger enter");
         // Damage enemies then disappear
         if (col.gameObject.tag == DamageeTag) {
             if (col.gameObject.TryGetComponent<HealthController>(out HealthController HC)) {

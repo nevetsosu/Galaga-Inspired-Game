@@ -10,7 +10,11 @@ public class awaitDeath : Action
         taskDone = false;
 
         while (awaitee) {
-            await Task.Delay(pollingRate);
+            if (pollingRate <= 1) {
+                await Task.Yield();
+            } else {
+                await Task.Delay(pollingRate);
+            }
         }
 
         taskDone = true;

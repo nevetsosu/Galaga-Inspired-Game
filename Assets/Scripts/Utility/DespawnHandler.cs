@@ -26,7 +26,6 @@ public class DespawnHandler : MonoBehaviour
     public virtual void reportReceive() {
         if (ReportTo != gameObject) {
             reportSend();
-            Debug.Log("SENDING REPORT");
         }
         if (--reportCount <= 0) Despawn(); 
     }

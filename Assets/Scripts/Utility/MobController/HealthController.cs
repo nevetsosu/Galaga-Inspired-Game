@@ -21,7 +21,6 @@ public class HealthController : MobController
     public void take_damage(int damage) {
         if (!invulnerable) {
             health -= Mathf.Abs(damage);
-            Debug.Log("Damage Taken, current health " + health);
         }
 
         AudioManager.Instance.Play(damage_noise);
@@ -30,14 +29,13 @@ public class HealthController : MobController
 
     public void restoreHealth(int health) {
         this.health += Mathf.Abs(health);
-        Debug.Log("health ADDed, current health " + health);
     }
     void Update() {
         if (health < 1) {
             DH.reportReceive(); 
             // this.enabled = false;
             AudioManager.Instance.Play(deathSound);
-            if (endGame) LevelHandler.Instance.gameOver = true; 
+            if (endGame) LevelHandler.Instance.GameOver = true; 
         }
     }
     protected override void Awake() {

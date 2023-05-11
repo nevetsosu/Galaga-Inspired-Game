@@ -28,7 +28,6 @@ public class ActionSequence : Action
     }
 
     protected override async void execute() {
-        Debug.Log("EXECUTE as " + PerformingObj.name);
         while (!taskDone) {
             await Task.Yield();
         }
@@ -54,23 +53,20 @@ public class ActionSequence : Action
             ActionList = PerformingObj.transform.GetChild(0).gameObject;
 
             if (!ActionList) {
-                Debug.Log("that shit is still null");
+                Debug.LogError("Action list null");
                 return false; 
             }
         }
 
         foreach (Action a in ActionList.GetComponents<Action>()) {
             Actions.Add(a); 
-            Debug.Log("added here");
         }
 
-        Debug.Log("Action list child count " + ActionList.transform.childCount);
         for (int i = 0 ; i < ActionList.transform.childCount; i++) {
             GameObject GM = ActionList.transform.GetChild(i).gameObject;
 
             if (GM.TryGetComponent<Action>(out Action A)) {
                 Actions.Add(A);
-                Debug.Log("Action in " + GM.gameObject + " found " + "CURRENT action list count" + Actions.Count);
             }
         }
 

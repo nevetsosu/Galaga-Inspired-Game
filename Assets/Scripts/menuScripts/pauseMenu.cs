@@ -26,7 +26,7 @@ public class pauseMenu : MonoBehaviour
     }
 
     public void mainMenuButton() {
-        LevelHandler.Instance.gameOver = false;
+        LevelHandler.Instance.GameOver = false;
         hidePauseMenu();
         GameManager.Instance.Resume();
         GameManager.Instance.exitLevel(); 

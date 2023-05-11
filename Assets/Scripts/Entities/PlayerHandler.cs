@@ -54,7 +54,7 @@ public class PlayerHandler : Entity
     }
 
     void Update() { 
-        if (!LevelHandler.Instance.gameOver && !GameManager.Instance.isPaused()) { 
+        if (!LevelHandler.Instance.GameOver && !GameManager.Instance.isPaused()) { 
             // Update velocity based on Horizontal
             RigidBody.velocity = Vector2.ClampMagnitude(new Vector2(Input.GetAxis("Horizontal"), 0), 1) * speed;
 
