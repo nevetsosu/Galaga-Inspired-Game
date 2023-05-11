@@ -1,6 +1,7 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Sound {
@@ -30,15 +31,17 @@ public class Sound {
 
 public class AudioManager : MonoBehaviour
 {
-
 	public static AudioManager Instance;
-
 	public AudioMixerGroup mixerGroup;
 
 	public Sound[] sounds;
 
+	[SerializeField] protected Slider volumeSlider;
+
 	void Awake()
 	{
+		AudioListener.volume = .25f;
+		
 		if (Instance != null)
 		{
 			Destroy(gameObject);
@@ -57,6 +60,10 @@ public class AudioManager : MonoBehaviour
 
 			s.source.outputAudioMixerGroup = mixerGroup;
 		}
+	}
+
+	void Update() {
+		AudioListener.volume = volumeSlider.value;
 	}
 
 	public void Play(string sound)

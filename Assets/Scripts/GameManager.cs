@@ -90,6 +90,12 @@ public class GameManager : MonoBehaviour
     }
 
     public void gameWinSaveAndQuitButton() {
+        if (nameInput.text.Length > 6) return; 
+        if (GameManager.Instance.nameInput.text.Trim().Length == 1) return; 
+
+        Debug.Log("text |" + GameManager.Instance.nameInput.text.Trim() + "|");
+        Debug.Log("text length " + GameManager.Instance.nameInput.text.Trim().Length);
+        savePlayer(); 
         hideWinMenu();
         mainMenuReset();
     }
@@ -111,7 +117,6 @@ public class GameManager : MonoBehaviour
         
         string fileName = "level" + currentLevel.ToString();
         string strData = JsonUtility.ToJson(saveData);
-        Debug.Log("SAVING SAVE" + strData);
         string path = Application.persistentDataPath + "/" + fileName + ".json";
         Debug.Log("Saving at path " + path);
 
@@ -126,10 +131,7 @@ public class GameManager : MonoBehaviour
         string path = Application.persistentDataPath + "/" + fileName + ".json";
 
         if (System.IO.File.Exists(path)) {
-            Debug.Log("data found at " + path);
-
             string strData = System.IO.File.ReadAllText(path);
-            Debug.Log("LOADING (LOAD)" + strData);
             
             return JsonUtility.FromJson<LevelData>(strData);
         } else { 
@@ -139,12 +141,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void savePlayer() {
-        if (GameManager.Instance.nameInput.text.Trim().Length != 0) {
-            LevelHandler.Instance.data.times.Add(LevelHandler.Instance.TimeElapsed);
-            LevelHandler.Instance.data.names.Add(GameManager.Instance.nameInput.text);
+        LevelHandler.Instance.data.times.Add(LevelHandler.Instance.TimeElapsed);
+        LevelHandler.Instance.data.names.Add(GameManager.Instance.nameInput.text);
 
-            save(LevelHandler.Instance.data);
-        }
+        save(LevelHandler.Instance.data);
     }
 
     public void clearAllData() {
