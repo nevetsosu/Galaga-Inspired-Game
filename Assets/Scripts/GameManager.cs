@@ -91,11 +91,12 @@ public class GameManager : MonoBehaviour
 
     public void gameWinSaveAndQuitButton() {
         if (nameInput.text.Length > 6) return; 
-        if (GameManager.Instance.nameInput.text.Trim().Length == 1) return; 
-
-        Debug.Log("text |" + GameManager.Instance.nameInput.text.Trim() + "|");
-        Debug.Log("text length " + GameManager.Instance.nameInput.text.Trim().Length);
-        savePlayer(); 
+        
+        
+        if (GameManager.Instance.nameInput.text.Trim().Length != 1) {
+            savePlayer(); 
+        }
+        
         hideWinMenu();
         mainMenuReset();
     }
