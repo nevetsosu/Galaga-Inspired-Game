@@ -40,7 +40,6 @@ public class AudioManager : MonoBehaviour
 
 	void Awake()
 	{
-		AudioListener.volume = .25f;
 		
 		if (Instance != null)
 		{
@@ -63,6 +62,7 @@ public class AudioManager : MonoBehaviour
 	}
 
 	void Update() {
+		Debug.Log("Slider value: " + volumeSlider.value);
 		AudioListener.volume = volumeSlider.value;
 	}
 

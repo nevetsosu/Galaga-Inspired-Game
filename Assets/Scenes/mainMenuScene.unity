@@ -5730,7 +5730,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1 &1239568029
 GameObject:
@@ -6206,12 +6206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a383434da53fb945af705f8e6a7da17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: 0
-  GameOverUI: {fileID: 1989935759}
-  WinUI: {fileID: 1641492555}
   FinalTimeFail: {fileID: 474181269}
   FinalTimeSuccess: {fileID: 193906882}
   nameInput: {fileID: 674694577}
+  currentLevel: 0
+  GameOverUI: {fileID: 1989935759}
+  WinUI: {fileID: 1641492555}
 --- !u!4 &1281922736
 Transform:
   m_ObjectHideFlags: 0

@@ -11,14 +11,15 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] protected int currentLevel = 0;
-    [SerializeField] protected GameObject GameOverUI;
-    [SerializeField] protected GameObject WinUI; 
     [SerializeField] public TextMeshProUGUI FinalTimeFail; 
     [SerializeField] public TextMeshProUGUI FinalTimeSuccess;
     [SerializeField] public TextMeshProUGUI nameInput;
-    private bool paused = false;
     public static GameManager Instance;
+    
+    [SerializeField] protected int currentLevel = 0;
+    [SerializeField] protected GameObject GameOverUI;
+    [SerializeField] protected GameObject WinUI; 
+    private bool paused = false;
 
     public int CurrentLevel
     {
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
         if (GameManager.Instance.nameInput.text.Trim().Length != 1) {
             savePlayer(); 
         }
-        
+
         hideWinMenu();
         mainMenuReset();
     }
