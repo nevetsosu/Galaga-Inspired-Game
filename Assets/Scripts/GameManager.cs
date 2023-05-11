@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -11,14 +9,19 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] public TextMeshProUGUI FinalTimeFail; 
-    [SerializeField] public TextMeshProUGUI FinalTimeSuccess;
-    [SerializeField] public TextMeshProUGUI nameInput;
+    // initialized in the editor 
+    [SerializeField] public TextMeshProUGUI FinalTimeFail; // final time on the fail screen
+    [SerializeField] public TextMeshProUGUI FinalTimeSuccess; // final time on the success screen
+    [SerializeField] public TextMeshProUGUI nameInput; // name input field on the success screen
+
     public static GameManager Instance;
     
-    [SerializeField] protected int currentLevel = 0;
-    [SerializeField] protected GameObject GameOverUI;
+
+    // initialized in editor
+    [SerializeField] protected GameObject GameOverUI; 
     [SerializeField] protected GameObject WinUI; 
+
+    [SerializeField] protected int currentLevel = 0; // for data saving
     private bool paused = false;
 
     public int CurrentLevel
@@ -27,18 +30,22 @@ public class GameManager : MonoBehaviour
     }
 
     private void Awake() {
+        // only one game manager
         if (Instance != null) {
             Destroy(gameObject);
             return; 
         }
 
         Instance = this;
+
+        // keep across scenes
         DontDestroyOnLoad(gameObject);
     } 
 
     private void Start() {
+        // game start prep
         AudioManager.Instance.Play("BGM");
-        Resume(); 
+        Resume();
     }
 
     public void Resume() {
@@ -91,38 +98,40 @@ public class GameManager : MonoBehaviour
     }
 
     public void gameWinSaveAndQuitButton() {
-        if (nameInput.text.Length > 6) return; 
+        if (nameInput.text.Length > 6) return; // names cannot be longer than length 5, (starting field size of 1 not 0)  
         
-        
-        if (GameManager.Instance.nameInput.text.Trim().Length != 1) {
+        if (GameManager.Instance.nameInput.text.Trim().Length != 1) { // dont save if nothing is in the field
             savePlayer(); 
+            GameManager.Instance.nameInput.text = "";
         }
 
+        // back to main menu
         hideWinMenu();
         mainMenuReset();
     }
 
     public void gameOverMainMenuButton() {
+        // back to main menu
         hideGameOverMenu();
         mainMenuReset();
     }
 
     private void mainMenuReset() {
+        // unpause time and return to main menu
         GameManager.Instance.Resume();
         GameManager.Instance.exitLevel(); 
     }
 
-    public void save(LevelData saveData) {
-        for (int i = 0; i < saveData.names.Count; i++) {
-            Debug.Log("BEFORE SAVE" + saveData.names[i] + " " + saveData.times[i]);
-        }
-        
+    public void save(LevelData saveData) {     
+        // serialize and store with name format levelx, where x is the scene ID.   
         string fileName = "level" + currentLevel.ToString();
         string strData = JsonUtility.ToJson(saveData);
         string path = Application.persistentDataPath + "/" + fileName + ".json";
+
         Debug.Log("Saving at path " + path);
 
         System.IO.File.WriteAllText(path, strData);
+
         Debug.Log("Save completed.");
     }
 
@@ -132,9 +141,9 @@ public class GameManager : MonoBehaviour
         string fileName = "level" + currentLevel.ToString();
         string path = Application.persistentDataPath + "/" + fileName + ".json";
 
+        // return empty or populated LevelData depending if there is a save or not
         if (System.IO.File.Exists(path)) {
             string strData = System.IO.File.ReadAllText(path);
-            
             return JsonUtility.FromJson<LevelData>(strData);
         } else { 
             Debug.Log("Old file not found, returning new data");
@@ -143,14 +152,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void savePlayer() {
+        // add player data
         LevelHandler.Instance.data.times.Add(LevelHandler.Instance.TimeElapsed);
         LevelHandler.Instance.data.names.Add(GameManager.Instance.nameInput.text);
 
+        // write LevelData to disk
         save(LevelHandler.Instance.data);
     }
 
     public void clearAllData() {
-        for (int i = 0; i < 6; i++) {
+        Debug.Log("Clearing scene data 0 through " + SceneManager.sceneCountInBuildSettings);
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
             string fileName = "level" + i;
             string path = Application.persistentDataPath + "/" + fileName + ".json";
 
@@ -160,6 +172,7 @@ public class GameManager : MonoBehaviour
 
 }
 
+// store key value pairs as two lists
 [System.Serializable]
 public class LevelData {
     public List<float> times = new List<float>(); 

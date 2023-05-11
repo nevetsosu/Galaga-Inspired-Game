@@ -1,17 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Splines;
 using System.Threading.Tasks;
 
+// executes a list of actions in order
 public class ActionSequence : Action
 {
-    List<Action> Actions = new List<Action>();
-    [SerializeField] GameObject ActionList;
+    [SerializeField] GameObject ActionList; // Object that contains the list of actions as components of this object
     [SerializeField] protected int totalActions = 0;
     [SerializeField] protected int currentAction = 0;
-    [SerializeField] protected int taskDoneAfterActionID = 0; 
-    [SerializeField] protected bool executeAsSelf = true;
+    [SerializeField] protected int taskDoneAfterActionID = 0; // at what point the action sequence is consider done ( marks taskDone )
+    [SerializeField] protected bool executeAsSelf = true; // default execute on self
+
+    protected List<Action> Actions = new List<Action>();
 
     public int TotalActions
     {
@@ -28,18 +28,21 @@ public class ActionSequence : Action
     }
 
     protected override async void execute() {
+        // if the task is already executing await its finish before starting again
         while (!taskDone) {
             await Task.Yield();
         }
 
         taskDone = false;
 
+        // do all actions before task Done
         for (currentAction = 0; currentAction < Mathf.Clamp(taskDoneAfterActionID + 1, 0, totalActions); currentAction++) {
             await doAction(currentAction); 
         }
 
         taskDone = true;
 
+        // do all actions after task done
         for (; currentAction < totalActions; currentAction++) {
             await doAction(currentAction);
         }
@@ -77,17 +80,20 @@ public class ActionSequence : Action
     }
 
     private async Task doAction(int currentAction) {
+        
+        // execute the current action
         if (Actions[currentAction]) {
             Actions[currentAction].gameObject.SetActive(true);
             if (executeAsSelf) Actions[currentAction].Execute(PerformingObj); 
             else Actions[currentAction].Execute();
         }
         
+        // wait for it to be done and check if it still exists (its object has died or not)
         while (!Actions[currentAction].TaskDone && Actions[currentAction]) {
             await Task.Yield(); 
         }
 
-        if (!Actions[currentAction]) return;
+        // if (!Actions[currentAction]) return;
     }
 }
 

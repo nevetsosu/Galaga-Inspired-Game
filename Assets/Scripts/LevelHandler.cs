@@ -6,15 +6,16 @@ using TMPro;
 public class LevelHandler : MonoBehaviour
 {
     public static LevelHandler Instance;
-    public bool GameOver = false;
+    [SerializeField] public bool GameOver = false;
     [SerializeField] protected bool levelWin = false; 
-    public static float PLAYFIELDWIDTH = 36;
 
+    public static float PLAYFIELDWIDTH = 36;
     public LevelData data = new LevelData();
+
     [SerializeField] protected float timeElapsed = 0; 
     [SerializeField] protected TextMeshProUGUI timeText;
     [SerializeField] protected TextMeshProUGUI scoresText;
-    SortedList< float, string > scoreboard = new SortedList< float, string >(); 
+    protected SortedList< float, string > scoreboard = new SortedList< float, string >(); 
 
     public float TimeElapsed
     {
@@ -22,28 +23,30 @@ public class LevelHandler : MonoBehaviour
     }
 
     void Awake() {
-        // Singleton
-        // if (Instance != null) {
-        //     Destroy(gameObject);
-        //     return;
-        // }
+        // one level at a time
+        if (Instance != null) {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
 
-        Time.timeScale = 1f;
+        // at some point timeScale started defaulting to zero and i dont wanna have to go find it, this works 
+        GameManager.Instance.Resume();
 
+        // attempt data load
         data = GameManager.Instance.load();
 
+        // double check data validity
         if (data.names.Count != data.times.Count ) {
             Debug.LogWarning("Times and names aren't lining up");
         }
 
+        // add data to sorted list // perhaps it would be better to find a way to serialize the SORTED data, but this works
         for (int i = 0; i < data.names.Count; i++) {
-            Debug.Log("Adding name");
-            // scoresText.text += data.names[i] + " " + data.times[i].ToString() + "\n";
-
             scoreboard.Add(data.times[i], data.names[i]);
         }
 
+        // only show 10 scoreboard entries
         int counter = 0; 
         foreach (var i in scoreboard) {
             if (counter++ >= 10) break;
@@ -51,43 +54,44 @@ public class LevelHandler : MonoBehaviour
         }        
     }
 
-    async void Start() {
-        GameOver = false; 
-        // before game start
+    async void Start() { 
 
-        // game start
-
+        // start level
         ActionSequence AS = gameObject.GetComponent<ActionSequence>();
-
         AS.Execute(); 
 
+        // await level finish
         while (!AS.TaskDone) {
             await Task.Yield(); 
         }
 
+        // end level with success
         GameOver = true; 
         levelWin = true;
-        
-        // game end
     }
     
     void Update()
     {
+        // check for pause menu 
         if (pauseMenu.Instance != null && !GameOver) {
             pauseMenu.Instance.pauseMenuCheck();
         }
 
+        // lose game by default and stop updating level
         if (GameOver) { 
             this.enabled = false;
             endGame();
-        } 
-        // Check pause if there is a pause menu
-        
+        }  
     }
 
     void FixedUpdate() { 
+        // time elapsed update
         timeElapsed += Time.fixedDeltaTime;
+
+        // update time display bottom right
         timeText.text = timeElapsed.ToString("0.00");
+        
+        // update time displays on menus
         if (GameManager.Instance) {
             GameManager.Instance.FinalTimeFail.text = "Elapsed Time: " + timeElapsed.ToString("0.00");
             GameManager.Instance.FinalTimeSuccess.text = "Elapsed Time: " + timeElapsed.ToString("0.00");
@@ -97,6 +101,8 @@ public class LevelHandler : MonoBehaviour
     public void endGame() {
         StopAllCoroutines(); 
         GameManager.Instance.Pause();
+
+        // determine win or lose screen
         if (levelWin) GameManager.Instance.showWinMenu();
         else GameManager.Instance.showGameOverMenu();
     }

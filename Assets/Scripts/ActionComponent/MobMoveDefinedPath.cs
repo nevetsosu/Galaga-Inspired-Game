@@ -121,11 +121,6 @@ public class MobMoveDefinedPath : Action
         MMC.MoveTo(splinePath.EvaluatePosition(0));
     }
 
-    public void setSpline(SplineContainer spline) {
-        SplinePath = spline;
-        resetProgress();
-    }
-
     public bool singlePass() {
         return relativeProgress >= awaitRelativeProgress;
     }
@@ -135,6 +130,7 @@ public class MobMoveDefinedPath : Action
         Debug.Log("Progress: " + Progress + " RelProgress: " + RelativeProgress);
     }
 
+    // increment is a function of speed and total length
     private void calculateIncrement() {
         increment = Speed / splinePath.CalculateLength();
     }

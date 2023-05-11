@@ -5,42 +5,28 @@ using UnityEngine.UI;
 
 [System.Serializable]
 public class Sound {
-
 	public string name;
-
 	public AudioClip clip;
-
-	[Range(0f, 1f)]
-	public float volume = .75f;
-	[Range(0f, 1f)]
-	public float volumeVariance = .1f;
-
-	[Range(.1f, 3f)]
-	public float pitch = 1f;
-	[Range(0f, 1f)]
-	public float pitchVariance = .1f;
-
+	[Range(0f, 1f)] public float volume = .75f;
+	[Range(0f, 1f)] public float volumeVariance = .1f;
+	[Range(.1f, 3f)] public float pitch = 1f;
+	[Range(0f, 1f)] public float pitchVariance = .1f;
 	public bool loop = false;
-
 	public AudioMixerGroup mixerGroup;
-
-	[HideInInspector]
-	public AudioSource source;
-
+	[HideInInspector] public AudioSource source;
 }
 
 public class AudioManager : MonoBehaviour
 {
 	public static AudioManager Instance;
 	public AudioMixerGroup mixerGroup;
-
 	public Sound[] sounds;
 
 	[SerializeField] protected Slider volumeSlider;
 
 	void Awake()
 	{
-		
+		// only one audio manager allowed
 		if (Instance != null)
 		{
 			Destroy(gameObject);
@@ -62,12 +48,12 @@ public class AudioManager : MonoBehaviour
 	}
 
 	void Update() {
-		Debug.Log("Slider value: " + volumeSlider.value);
 		AudioListener.volume = volumeSlider.value;
 	}
 
 	public void Play(string sound)
 	{
+		// find sound 
 		Sound s = Array.Find(sounds, item => item.name == sound);
 		if (s == null)
 		{
@@ -75,6 +61,7 @@ public class AudioManager : MonoBehaviour
 			return;
 		}
 
+		// apply volume and pitch with variance
 		s.source.volume = s.volume  * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f));
 		s.source.pitch = s.pitch  * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
 

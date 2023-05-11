@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class HealthDisplay : MonoBehaviour
 {
     protected HealthController HC;
-    [SerializeField] protected TextMeshProUGUI TM;
-    [SerializeField] protected GameObject subject;
+    [SerializeField] protected TextMeshProUGUI TM; // reference to text that displays health
+    [SerializeField] protected GameObject subject; // the object whose health data will be tracked and displayed 
 
     void Awake() {
+        // default subject is player
          if (!subject) {
             if (PlayerHandler.Instance) {
                 subject = PlayerHandler.Instance.gameObject;
@@ -20,6 +19,7 @@ public class HealthDisplay : MonoBehaviour
             }
         }
         
+        // error checks
         if (!subject.TryGetComponent<HealthController>(out HC)) {
             Debug.LogWarning("no health controller");
             this.enabled = false;
@@ -32,13 +32,15 @@ public class HealthDisplay : MonoBehaviour
     }
     void Start()
     {
-        TM.text = "100";
+        // display default Health
+        TM.text = HC.Health.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // while subject is alive, update health
         if (subject) TM.text = HC.Health.ToString();
-        else Destroy(gameObject);
+        else this.enabled = false;   // stop updating health display upon object dealth
     }
 }

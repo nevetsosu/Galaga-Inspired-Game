@@ -3,7 +3,6 @@ using UnityEngine;
 public abstract class Action : MobUtility 
 {
     [SerializeField] protected GameObject PerformingObj;
-
     [SerializeField] protected bool taskDone = false;
     [SerializeField] protected bool activateOnWake = false;
 
@@ -19,18 +18,23 @@ public abstract class Action : MobUtility
 
     protected override void Awake() {
         base.Awake();
+
+        // default performing obj is self
         PerformingObj = gameObject;
-        if (ActivateOnWake) Execute();; 
+
+        if (ActivateOnWake) Execute(); 
     }
 
+    // execute without assigning performing obj
     public void Execute() {
         if (preCheck()) {
             execute();
         } else {
-            Debug.Log("Precheck fail ACTION");
+            Debug.LogError("Precheck fail on " + PerformingObj.name);
         }
     }
     
+    // execute with assigning performing Obj
     public void Execute(GameObject PerformObj) {
         this.PerformingObj = PerformObj;
         Execute();
