@@ -1,22 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class mainMenuHandler : MonoBehaviour
 {
-    private bool Cont = false;
     public static mainMenuHandler Instance;
 
-    public Button @continue;
-    public Button @new;
+    public Button @continue; // contine button isn't currently used
+    public Button @new; // referernce to the new game button
 
-    private GameObject cur_screen;
-
-    public GameObject[] menus;
+    [SerializeField] protected GameObject[] menus; // array of all menu UIs
+    protected bool Cont = false; // whether continue or new should be shown // not yet implemented // wwould be set after checking save data
+    protected GameObject cur_screen; // current screen // part of the legacy UI system, UI menus need a rework
 
     void Awake()
     {
+        // only one main menu
         if (Instance != null) {
             Destroy(gameObject);
             return; 
@@ -45,16 +43,19 @@ public class mainMenuHandler : MonoBehaviour
         }
     }
 
+    // change current menu
     public void loadScreen(int i) {
         cur_screen.SetActive(false);
         cur_screen = menus[i];
         cur_screen.SetActive(true);
     }
 
+    // for the new Game button to execute on press
     public void newGameButton() {
         GameManager.Instance.LoadScene(1);
     }
 
+    // for the exit button to execute on press
     public void exitButton() {
         GameManager.Instance.exitGame();
     }

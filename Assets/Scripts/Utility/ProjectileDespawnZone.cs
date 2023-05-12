@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ProjectileDespawnZone : MonoBehaviour
 {
+    // despawn zone for only projectiles
     void OnTriggerEnter2D(Collider2D col) {       
-        if (col.gameObject.tag != "Projectile") return;
+        if (!col.gameObject.CompareTag("Projectile")) return;
 
-        DespawnHandler DH;
-        if (col.gameObject.TryGetComponent<DespawnHandler>( out DH )) {
+        // send despawn report if despawn handler found on object
+        if (col.gameObject.TryGetComponent<DespawnHandler>( out DespawnHandler DH )) {
             DH.reportReceive();
         }
     }

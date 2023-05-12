@@ -5,32 +5,31 @@ using UnityEngine;
 // Base class Projectile
 public abstract class Projectile : Action
 {
+    public Vector3 direction = Vector3.up; // default projectile direction is up
+    public GameObject Shooter; // reference back to the object that instantiated the projectile
 
     [SerializeField] public int damage = 5;
     [SerializeField] public float speed = 10;
     [SerializeField] protected bool Piercing = false;
-    public Vector3 direction = Vector3.up;
 
     protected MobMovementController MMC;
     protected MobLookController MLC;
     protected DespawnHandler DH;
-    public GameObject Shooter;
 
-    protected override void Awake() {
-        base.Awake();
-    }
     void Update() {
-        MMC.MoveTo(PerformingObj.transform.position + Vector3.Normalize(direction) * speed * Time.deltaTime);
-        MLC.lookToward(direction);
+        MMC.MoveTo(PerformingObj.transform.position + Vector3.Normalize(direction) * speed * Time.deltaTime); // determine the next position to move to
+        MLC.lookToward(direction); // future proofing for if a Projectile could turn while moving, but for now doesn't really affect the direction of the projectile
     }
 
     public virtual void OnTriggerEnter2D(Collider2D col) {
-        if (Shooter && col == Shooter) return; 
+        if (Shooter && col.gameObject.Equals(Shooter)) return; // make sure the projectile doesn't collide with the spawning object
 
+        // damage colliding object if it is capable of taking damage
         if (col.TryGetComponent<HealthController>(out HealthController HC)) {
             HC.take_damage(damage); 
         }
 
+        // if not peircing, disappear on impact.
         if (!Piercing) {
             Destroy(gameObject); 
         }
@@ -41,6 +40,7 @@ public abstract class Projectile : Action
         bool valid = true;
         if (!base.preCheck()) valid = false;
 
+        // make sure there are mobcontrollers
         if (!PerformingObj.TryGetComponent<MobMovementController>(out MMC)) {
             MMC = PerformingObj.AddComponent<MobMovementController>(); 
         }

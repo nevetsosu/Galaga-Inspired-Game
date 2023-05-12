@@ -52,6 +52,8 @@ public class ActionSequence : Action
     {
         bool valid = true; 
 
+        if (!base.preCheck()) valid = false;
+
         if (!ActionList) {
             ActionList = PerformingObj.transform.GetChild(0).gameObject;
 
@@ -61,10 +63,12 @@ public class ActionSequence : Action
             }
         }
 
+        // get the elements in the actionlist gameObject
         foreach (Action a in ActionList.GetComponents<Action>()) {
             Actions.Add(a); 
         }
 
+        // get Actions in the children of the action list
         for (int i = 0 ; i < ActionList.transform.childCount; i++) {
             GameObject GM = ActionList.transform.GetChild(i).gameObject;
 
@@ -92,8 +96,6 @@ public class ActionSequence : Action
         while (!Actions[currentAction].TaskDone && Actions[currentAction]) {
             await Task.Yield(); 
         }
-
-        // if (!Actions[currentAction]) return;
     }
 }
 

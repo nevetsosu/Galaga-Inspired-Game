@@ -3,7 +3,7 @@ using UnityEngine;
 public class MobLookController : MobController
 {
 
-    // sets the desired look-direction.
+    // sets the desired look-direction + overloads
     public void lookToward(Vector3 direction) {
         lookToward(Quaternion.LookRotation(Vector3.forward, direction));
     }
@@ -12,7 +12,7 @@ public class MobLookController : MobController
         gameObject.transform.rotation = rot;
     }
 
-    // sets the desired look-toward position
+    // sets the desired look-toward position + overloads
     public void lookAt(Vector3 position) {
         Vector3 current_pos = gameObject.transform.position;
         lookToward(position - current_pos);
@@ -22,6 +22,7 @@ public class MobLookController : MobController
         if (target) lookAt(target.transform.position);
     }
 
+    // move toward a direction + overloads
     public void incrementToward(Vector3 direction, int incrementAngle) {
         incrementToward(Quaternion.LookRotation(Vector3.forward, direction), incrementAngle);
     }

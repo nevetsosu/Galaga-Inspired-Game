@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 
 public class LimitedAttackHandler : MonoBehaviour
 {
-    [SerializeField] public int delayCoolDown = 0; 
-    [SerializeField] protected bool attackLock = false; 
-    [SerializeField] protected int burstDelay = 100;
+    [SerializeField] public int delayCoolDown = 0; // delay between shoot triggers
+
+    [SerializeField] protected bool attackLock = false; // attack lock to control fire rate
+    [SerializeField] protected int burstDelay = 100; // delay between burst shots
     protected AttackController AC;
+
     void Awake() {
         if (!gameObject.TryGetComponent<AttackController>(out AC)) {
             Debug.LogWarning("Cannot attack without attack controller.");

@@ -9,22 +9,24 @@ public class ActionToggleTrackObject : Action
 
     [SerializeField] private GameObject target; 
     [SerializeField] private int incrementAngle = 1;
-    [SerializeField] public bool awaitOnTarget = false;
+    [SerializeField] public bool awaitOnTarget = false; // if true, taskDone will wait until the target is found before marking true
 
     protected async override void execute() {
-        Debug.Log("Executing Action");
         taskDone = false;
 
+        // add primitive action script
         MobTrackObject MTO;
         if (!PerformingObj.TryGetComponent<MobTrackObject>(out MTO)) {
             MTO = PerformingObj.AddComponent<MobTrackObject>(); 
         }
             
+        // init settings
         MTO.target = target;
         MTO.incrementAngle = incrementAngle; 
 
         MTO.Execute(PerformingObj); 
 
+        // wait for the target to be found if awaiting Target
         if (awaitOnTarget && MTO.enabled) {
             while (!MTO.onTarget()) {
                 await Task.Yield();

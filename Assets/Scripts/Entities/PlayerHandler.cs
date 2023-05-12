@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 public class PlayerHandler : Entity
 {
+    public static PlayerHandler Instance;
+
     [SerializeField] protected GameObject laserPrefab;
     [SerializeField] protected float speed;
-    [SerializeField] protected int coolDownDelay = 100; 
+    [SerializeField] protected int coolDownDelay = 100; // delay between attack triggers
     private Rigidbody2D RigidBody;
-    public static PlayerHandler Instance;
 
     protected AttackController AC;
     protected MobMovementController MMC; 
@@ -18,15 +19,18 @@ public class PlayerHandler : Entity
     protected LimitedAttackHandler LAH;
 
     void Awake() {
-        // Singleton
+        // only one player handler, though this could be potentially be changed to support local 2 player coop // with 2 controllers or on the same keyboard
         if (Instance != null) {
             Destroy(gameObject);
             return;
         }   
         Instance = this;
 
+        // the player is the only one that really uses the physics system to have smooth gradual acceleration on the player
+        // rigidbody is the element that is in the physics simulation
         RigidBody = this.GetComponent<Rigidbody2D>();
 
+        // make sure the player has the proper controllers
         if (!gameObject.TryGetComponent<AttackController>(out AC)) {
             AC = gameObject.AddComponent<AttackController>();
             AC.laser = laserPrefab;
@@ -46,13 +50,6 @@ public class PlayerHandler : Entity
         }
     }
 
-    void Start()
-    {
-        // for(int i = 0; i < Gamepad.all.Count; i++){
-        //     Debug.Log(Gamepad.all[i].name);
-        // }
-    }
-
     void Update() { 
         if (!LevelHandler.Instance.GameOver && !GameManager.Instance.isPaused()) { 
             // Update velocity based on Horizontal
@@ -65,7 +62,6 @@ public class PlayerHandler : Entity
 
             // Attack with space button
             if (Input.GetButtonDown("Fire1")) {
-                // PAH.TrySingle();
                 LAH.TryBurst(); 
             }
         }

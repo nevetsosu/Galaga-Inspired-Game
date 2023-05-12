@@ -6,8 +6,8 @@ public class EnemyProjectile : Projectile
 {
     public override void OnTriggerEnter2D(Collider2D col)
     {
-        // Only damage the player and disappear
-        if (col.gameObject.tag == "Player") {
+        // only damage player
+        if (col.gameObject.CompareTag("Player")) {
             if (col.TryGetComponent<HealthController>(out HealthController HC)) {
                 HC.take_damage(damage); 
             }

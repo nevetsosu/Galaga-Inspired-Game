@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class DespawnHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject ReportTo = null;
-    private DespawnHandler ReportToDH;
-    [SerializeField] private int reportCount = 1;
+    [SerializeField] protected GameObject ReportTo; // the game object that should also be informed of this object's death
+    [SerializeField] protected int reportCount = 1; // how many reports a game object should receive before dying
+    protected DespawnHandler ReportToDH;
 
     void Awake() {
-        if (ReportTo == null) {
-            ReportTo = gameObject;
-            ReportToDH = this;
-        } else if (!ReportTo.TryGetComponent<DespawnHandler>(out ReportToDH)) {
+        if (ReportTo && !ReportTo.TryGetComponent<DespawnHandler>(out ReportToDH)) { // make sure the reportTo also has a despawn handler
             ReportToDH = ReportTo.AddComponent<DespawnHandler>(); 
         }
     }
@@ -19,14 +16,14 @@ public class DespawnHandler : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // notify the reportTo object by calling its reportRecieve
     private void reportSend() {
         ReportToDH.reportReceive();
     }
 
     public virtual void reportReceive() {
-        if (ReportTo != gameObject) {
-            reportSend();
-        }
-        if (--reportCount <= 0) Despawn(); 
+        if (ReportTo) reportSend(); // report to reportTo if there is one
+
+        if (--reportCount <= 0) Despawn(); // check if this object should despawn
     }
 }

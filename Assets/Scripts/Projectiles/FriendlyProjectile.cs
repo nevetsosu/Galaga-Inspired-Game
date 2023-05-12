@@ -7,8 +7,8 @@ public class FriendlyProjectile : Projectile
 
     public override void OnTriggerEnter2D(Collider2D col)
     {
-        // Damage enemies then disappear
-        if (col.gameObject.tag == "Enemy") {
+        // Only damage enemies
+        if (col.gameObject.CompareTag("Enemy")) {
             if (col.gameObject.TryGetComponent<HealthController>(out HealthController enemy)) {
                 enemy.take_damage(damage);
             }
